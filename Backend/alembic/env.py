@@ -5,16 +5,16 @@ from sqlalchemy import pool
 from sqlalchemy.ext.asyncio import create_async_engine
 from alembic import context
 
-# Ensure that the root directory is in sys.path to import the app module
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Now you can import from the app module
+
 from app.models import Base
 
-# Interpret the config file for Python logging.
+
 fileConfig(context.config.config_file_name)
 
-# Set the target metadata for Alembic
+
 target_metadata = Base.metadata
 
 DATABASE_URL = context.config.get_main_option("sqlalchemy.url")
