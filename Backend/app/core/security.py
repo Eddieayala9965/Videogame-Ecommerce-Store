@@ -52,4 +52,16 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-        to_encode()
+        to_encode().update({"exp": expire})
+        encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+        return encoded_jwt
+    
+    def decode_access_token(token: str) -> Optional[dict]:
+      """Decode a JWT access token."""
+      try:
+          decode_jwt = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+          return decode_jwt if decode_jwt.get("exp") > datetime.utcnow().timestamp() else None
+      except JWTError:
+          return None
+          
+        
