@@ -1,9 +1,8 @@
 from fastapi import FastAPI
-from app.api.endpoints import game  # Ensure this import matches your project structure
+from app.api.endpoints import game  
 
 app = FastAPI()
 
-# Register the games router
 app.include_router(game.router)
 
 @app.get("/")
