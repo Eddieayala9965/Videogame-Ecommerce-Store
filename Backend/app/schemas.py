@@ -2,6 +2,7 @@ from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 from uuid import UUID
 
+
 class UserBase(BaseModel):
     username: str
     email: EmailStr
@@ -12,7 +13,7 @@ class UserCreate(UserBase):
 class UserUpdate(BaseModel):
     username: Optional[str]
     email: Optional[EmailStr]
-    password: Optional[str]
+    password: Optional[str]  
     is_active: Optional[bool] = True
     profile_picture: Optional[str]
 
@@ -23,6 +24,7 @@ class UserOut(UserBase):
 
     class Config:
         from_attributes = True
+
 
 class CartBase(BaseModel):
     gameID: str
@@ -37,6 +39,13 @@ class CartOut(CartBase):
 
     class Config:
         from_attributes = True
+
+class CartUpdate(BaseModel):
+    quantity: Optional[int]
+
+    class Config:
+        from_attributes = True
+
 
 class OrderBase(BaseModel):
     gameID: str
@@ -53,6 +62,13 @@ class OrderOut(OrderBase):
 
     class Config:
         from_attributes = True
+
+class OrderUpdate(BaseModel):
+    status: Optional[str]
+
+    class Config:
+        from_attributes = True
+
 
 class ReviewBase(BaseModel):
     gameID: str
