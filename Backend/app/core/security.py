@@ -56,7 +56,8 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
         encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
         return encoded_jwt
     
-    def decode_access_token(token: str) -> Optional[dict]:
+
+def decode_access_token(token: str) -> Optional[dict]:
       """Decode a JWT access token."""
       try:
           decode_jwt = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
