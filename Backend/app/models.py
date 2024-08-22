@@ -29,10 +29,11 @@ class Product(Base):
     description = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     image_url = Column(String, nullable=True)
-    owner_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    owner_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False) 
+    order_id = Column(UUID(as_uuid=True), ForeignKey("orders.id"), nullable=True) 
 
     owner = relationship("User", back_populates="products")
-    orders = relationship("Order", back_populates="product")
+    order = relationship("Order", back_populates="products")
     reviews = relationship("Review", back_populates="product")
 
 
@@ -41,12 +42,10 @@ class Order(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
-    product_id = Column(UUID(as_uuid=True), ForeignKey("products.id"), nullable=False)
-    quantity = Column(Integer, nullable=False)
     status = Column(String, default="Pending")
+    products = relationship("Product", back_populates="order")
 
     user = relationship("User", back_populates="orders")
-    product = relationship("Product", back_populates="orders")
 
 
 class Review(Base):
