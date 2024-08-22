@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from .models import User, Product, Order, Review
 from .schemas import UserCreate, UserUpdate, UserOut, ProductBase, ProductCreate, ProductUpdate, ProductOut, OrderBase, OrderCreate, OrderUpdate, OrderOut, ReviewBase, ReviewCreate, ReviewUpdate, ReviewOut
+from core.cheapshark_api import search_games
 from uuid import UUID
 
 # user crud operations
@@ -43,3 +44,11 @@ async def delete_user(db: AsyncSession, user_id: UUID) -> UserOut:
 
 
 # product crud operations
+
+async def get_product(db: AsyncSession, product_id: UUID) -> ProductOut:
+    product = await db.get(Product, product_id)
+    if not product:
+        return None
+    return ProductOut.from_atrributes(product)
+
+async def create_product

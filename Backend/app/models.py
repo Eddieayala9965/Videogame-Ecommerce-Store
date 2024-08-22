@@ -16,46 +16,45 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     profile_picture = Column(String, nullable=True)
 
-    products = relationship("Product", back_populates="owner")
+    carts = relationship("Cart", back_populates="user")
     orders = relationship("Order", back_populates="user")
     reviews = relationship("Review", back_populates="user")
 
-
-class Product(Base):
-    __tablename__ = "products"
+class Cart(Base):
+    __tablename__ = "carts"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    name = Column(String, nullable=False)
-    description = Column(String, nullable=False)
-    price = Column(Float, nullable=False)
-    image_url = Column(String, nullable=True)
-    owner_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False) 
-    order_id = Column(UUID(as_uuid=True), ForeignKey("orders.id"), nullable=True) 
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    gameID = Column(String, nullable=False)  
+    title = Column(String, nullable=False)  
+    price = Column(Float, nullable=False) 
+    quantity = Column(Integer, nullable=False, default=1)
+    image_url = Column(String, nullable=True)  
 
-    owner = relationship("User", back_populates="products")
-    order = relationship("Order", back_populates="products")
-    reviews = relationship("Review", back_populates="product")
-
+    user = relationship("User", back_populates="carts")
 
 class Order(Base):
     __tablename__ = "orders"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    gameID = Column(String, nullable=False)  
+    title = Column(String, nullable=False)  
+    price = Column(Float, nullable=False) 
+    quantity = Column(Integer, nullable=False)
+    image_url = Column(String, nullable=True)  
+    total_price = Column(Float, nullable=False)
     status = Column(String, default="Pending")
-    products = relationship("Product", back_populates="order")
 
     user = relationship("User", back_populates="orders")
-
 
 class Review(Base):
     __tablename__ = "reviews"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
-    product_id = Column(UUID(as_uuid=True), ForeignKey("products.id"), nullable=False)
+    gameID = Column(String, nullable=False)  
     rating = Column(Integer, nullable=False)
     comment = Column(String, nullable=False)
 
     user = relationship("User", back_populates="reviews")
-    product = relationship("Product", back_populates="reviews")

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional
+from typing import Optional, List
 from uuid import UUID
 
 class UserBase(BaseModel):
@@ -24,43 +24,28 @@ class UserOut(UserBase):
     class Config:
         from_attributes = True
 
+class CartBase(BaseModel):
+    gameID: str
+    title: str  
+    price: float  
+    quantity: int
+    image_url: Optional[str] 
 
-
-class ProductBase(BaseModel):
-    name: str
-    description: str
-    price: float
-    image_url: Optional[str]
-
-class ProductCreate(ProductBase):
-    pass
-
-class ProductUpdate(BaseModel):
-    name: Optional[str]
-    description: Optional[str]
-    price: Optional[float]
-    image_url: Optional[str]
-
-class ProductOut(ProductBase):
+class CartOut(CartBase):
     id: UUID
-    owner_id: UUID
+    user_id: UUID
 
     class Config:
         from_attributes = True
 
-
 class OrderBase(BaseModel):
-    product_id: UUID
+    gameID: str
+    title: str  
+    price: float  
     quantity: int
+    image_url: Optional[str]  
+    total_price: float
     status: Optional[str] = "Pending"
-
-class OrderCreate(OrderBase):
-    pass
-
-class OrderUpdate(BaseModel):
-    product_id: Optional[UUID]
-    quantity: Optional[int]
-    status: Optional[str]
 
 class OrderOut(OrderBase):
     id: UUID
@@ -69,19 +54,10 @@ class OrderOut(OrderBase):
     class Config:
         from_attributes = True
 
-
 class ReviewBase(BaseModel):
-    product_id: UUID
+    gameID: str
     rating: int
     comment: str
-
-class ReviewCreate(ReviewBase):
-    pass
-
-class ReviewUpdate(BaseModel):
-    product_id: Optional[UUID]
-    rating: Optional[int]
-    comment: Optional[str]
 
 class ReviewOut(ReviewBase):
     id: UUID
