@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.endpoints import auth, game, orders, products, reviews, users
+from app.api.endpoints import auth, game, order, products, review, user
 from app.db import create_database
 
 app = FastAPI()
@@ -19,10 +19,10 @@ app.add_middleware(
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(game.router, prefix="/games", tags=["games"])
-app.include_router(orders.router, prefix="/orders", tags={"orders"})
+app.include_router(order.router, prefix="/orders", tags={"orders"})
 app.include_router(products.router, prefix="/products", tags=["products"])
-app.include_router(reviews.router, prefix="/reviews", tags=["reviews"])
-app.include_router(users.router, prefix="/users", tags=["users"])
+app.include_router(review.router, prefix="/reviews", tags=["reviews"])
+app.include_router(user.router, prefix="/users", tags=["users"])
 
 @app.get("/")
 async def root():
