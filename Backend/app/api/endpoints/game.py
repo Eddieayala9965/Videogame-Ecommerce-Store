@@ -3,7 +3,7 @@ from app.core.cheapshark_api import search_games
 
 router = APIRouter()
 
-@router.get("/games/search/")
+@router.get("/search/")
 async def search_for_games(query: str):
     search_results = await search_games(query)
     if not search_results:

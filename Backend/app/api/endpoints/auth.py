@@ -20,10 +20,8 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-router = APIRouter(
-    prefix="/auth",
-    tags=["auth"]
-)
+router = APIRouter()
+   
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
