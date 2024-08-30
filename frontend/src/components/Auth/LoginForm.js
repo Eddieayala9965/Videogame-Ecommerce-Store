@@ -1,55 +1,50 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { TextField, Button, Typography, Container, Box } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/slices/authSlice";
-import { TextField, Button, Box, Typography } from "@mui/material";
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }));
   };
 
   return (
-    <Box component={form} onSubmit={handleSubmit} sx={{ mt: 3 }}>
-      <Typography variant="h5" gutterBottom>
-        Login
-      </Typography>
-      <TextField
-        margin="normal"
-        required
-        fullWidth
-        label="email"
-        value={email}
-        type="email"
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-      />
-      <TextField
-        margin="normal"
-        required
-        fullWidth
-        label="password"
-        value={password}
-        type="password"
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        color="primary"
-        sx={{ mt: 2 }}
-      >
-        Login
-      </Button>
-    </Box>
+    <Container maxWidth="sm">
+      <Box mt={5}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Login
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <TextField
+            label="Password"
+            variant="outlined"
+            type="password"
+            fullWidth
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Login
+          </Button>
+        </form>
+      </Box>
+    </Container>
   );
 };
 
