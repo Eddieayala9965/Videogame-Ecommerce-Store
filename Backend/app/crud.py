@@ -2,6 +2,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.exc import NoResultFound
 from uuid import UUID
+from fastapi import Depends, HTTPException, status
+
 from .models import User, Cart, Order, Review
 from .schemas import (
     UserCreate, UserUpdate,
@@ -9,46 +11,9 @@ from .schemas import (
     OrderBase, OrderUpdate,
     ReviewBase
 )
-
-
-# User CRUD Operations
-
-
-async def get_user(db: AsyncSession, user_id: UUID):
-    """Fetch a user by their UUID."""
-    return await db.get(User, user_id)
-
-async def create_user(db: AsyncSession, user: UserCreate):
-    """Create a new user."""
-    db_user = User(
-        username=user.username,
-        email=user.email,
-        hashed_password=user.password  
-    )
-    db.add(db_user)
-    await db.commit()
-    await db.refresh(db_user)
-    return db_user
-
-async def update_user(db: AsyncSession, user_id: UUID, user_update: UserUpdate):
-    """Update an existing user."""
-    db_user = await get_user(db, user_id)
-    if db_user is None:
-        return None
-    for key, value in user_update.dict(exclude_unset=True).items():
-        setattr(db_user, key, value)
-    await db.commit()
-    await db.refresh(db_user)
-    return db_user
-
-async def delete_user(db: AsyncSession, user_id: UUID):
-    """Delete a user by their UUID."""
-    db_user = await get_user(db, user_id)
-    if db_user is None:
-        return None
-    await db.delete(db_user)
-    await db.commit()
-    return db_user
+from app.core import security
+from app.db import get_db
+from jose import JWTError, jwt
 
 
 # Cart CRUD Operations

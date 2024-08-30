@@ -1,15 +1,18 @@
+import os
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
-import os
 from dotenv import load_dotenv
+
+print(f"Using Python interpreter: {os.popen('which python').read().strip()}")
+print(f"Using DATABASE_URL: {os.getenv('DATABASE_URL')}")
 
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_async_engine(DATABASE_URL, echo=True)
-async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, class_=AsyncSession)
 
 async def get_db():
-    async with async_session() as session:
+    async with SessionLocal() as session:
         yield session

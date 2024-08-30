@@ -10,7 +10,7 @@ annotated-types==0.7.0
 anyio==4.4.0
 async-timeout @ file:///home/conda/feedstock_root/build_artifacts/async-timeout_1691763562544/work
 asyncio==3.4.3
-asyncpg @ file:///Users/runner/miniforge3/conda-bld/asyncpg_1700296520309/work
+asyncpg==0.29.0
 attrs==24.2.0
 boto3==1.34.131
 botocore==1.34.131

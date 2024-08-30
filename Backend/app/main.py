@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.endpoints import auth, game, order, products, review, user
-from app.db import create_database
+from .api.endpoints import auth, game, order, review
+import sys
+import os
+
+
 
 app = FastAPI()
 
@@ -10,22 +13,18 @@ origins = [
 ]
 
 app.add_middleware(
-    CORSMiddleware, 
-    origins=origins,
-    credentials=True,
-    methods=["*"],
-    headers=["*"]
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
 )
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(game.router, prefix="/games", tags=["games"])
-app.include_router(order.router, prefix="/orders", tags={"orders"})
-app.include_router(products.router, prefix="/products", tags=["products"])
+app.include_router(order.router, prefix="/orders", tags=["orders"])
 app.include_router(review.router, prefix="/reviews", tags=["reviews"])
-app.include_router(user.router, prefix="/users", tags=["users"])
 
 @app.get("/")
 async def root():
     return {"message": "Welcome to the Video Game E-Commerce Store!"}
-
-

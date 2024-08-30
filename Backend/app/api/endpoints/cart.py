@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import List
+from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud import get_cart_items, add_to_cart, update_cart_item, delete_cart_item
 from app.schemas import CartBase, CartOut

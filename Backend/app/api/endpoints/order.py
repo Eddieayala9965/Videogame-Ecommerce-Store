@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import List
+from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud import create_order, get_user_orders, update_order_status, delete_order
 from app.schemas import OrderBase, OrderOut
-from app.db import get_db
+from ...db import get_db
 from uuid import UUID
 
 router = APIRouter()

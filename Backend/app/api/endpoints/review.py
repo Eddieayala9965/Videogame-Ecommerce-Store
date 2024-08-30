@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from pydantic import List
+from typing import List
 from app.crud import create_review, get_reviews_for_game, update_review, delete_review
 from app.schemas import ReviewBase, ReviewOut
 from app.db import get_db
