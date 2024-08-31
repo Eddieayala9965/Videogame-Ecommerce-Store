@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .api.endpoints import auth, game, order, review
+from .api.endpoints import auth, game, order, review, cart
 import sys
 import os
 
@@ -21,6 +21,7 @@ app.add_middleware(
 )
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
+app.include_router(cart.router, prefix="/cart", tags=["cart"])
 app.include_router(game.router, prefix="/games", tags=["games"])
 app.include_router(order.router, prefix="/orders", tags=["orders"])
 app.include_router(review.router, prefix="/reviews", tags=["reviews"])
