@@ -8,5 +8,38 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  return <></>;
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      setSnackbarMessage("Passwords do not match");
+      setOpenSnackbar(true);
+      return;
+    }
+    try {
+      const response = await registerUser({ username, email, password });
+      setSnackbarMessage("Registration successful!");
+      setOpenSnackbar(true);
+    } catch (error) {
+      setSnackbarMessage("Registration failed. Please try again.");
+      setOpenSnackbar(true);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  return (
+    <Container maxWidth="sm">
+      <Box mt={5}>
+        <Typography variant="h4" component={h1} gutterBottom>
+          Register
+        </Typography>
+      </Box>
+    </Container>
+  );
 };

@@ -7,7 +7,7 @@ import {
   Box,
   Snackbar,
 } from "@mui/material";
-import { loginUser } from "../";
+import { loginUser } from "../../utils/api";
 import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
@@ -26,7 +26,7 @@ const LoginForm = () => {
         setOpenSnackbar(true);
         setTimeout(() => {
           history.push("/dashboard");
-        }, 2000);
+        }, 2000); // Redirect after 2 seconds
       }
     } catch (error) {
       setSnackbarMessage("Login failed. Please check your credentials.");
@@ -44,7 +44,7 @@ const LoginForm = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Login
         </Typography>
-        <form onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit}>
           <TextField
             label="Email"
             variant="outlined"
@@ -67,7 +67,7 @@ const LoginForm = () => {
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Login
           </Button>
-        </form>
+        </Box>
       </Box>
       <Snackbar
         open={openSnackbar}
