@@ -1,24 +1,41 @@
 import React, { useState } from "react";
-import { TextField, Button, Typography, Container, Box } from "@mui/material";
-import { loginUser } from "../api"; // Import the login function from api.js
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Box,
+  Snackbar,
+} from "@mui/material";
+import { loginUser } from "../";
 import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await loginUser({ username: email, password });
-
       if (response.data.access_token) {
-        history.push("/dashboard");
+        setSnackbarMessage("Login successful!");
+        setOpenSnackbar(true);
+        setTimeout(() => {
+          history.push("/dashboard");
+        }, 2000);
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      setSnackbarMessage("Login failed. Please check your credentials.");
+      setOpenSnackbar(true);
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -52,6 +69,12 @@ const LoginForm = () => {
           </Button>
         </form>
       </Box>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={4000}
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+      />
     </Container>
   );
 };
