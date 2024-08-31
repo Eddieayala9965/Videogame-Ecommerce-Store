@@ -11,10 +11,10 @@ import {
   getUserProfile,
   updateUserProfile,
   deleteUserProfile,
-} from "../../utils/api";
+} from "../utils/api";
 
 const UserProfile = () => {
-  const [user, setUser] = useState({ username: "", email: "" });
+  const [user, setUser] = useState({ email: "", username: "" });
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -24,7 +24,7 @@ const UserProfile = () => {
         const response = await getUserProfile();
         setUser(response.data);
       } catch (error) {
-        setSnackbarMessage("Failed to fetch user profile.");
+        setSnackbarMessage("Failed to load user profile.");
         setOpenSnackbar(true);
       }
     };
@@ -47,7 +47,6 @@ const UserProfile = () => {
       await deleteUserProfile(user.id);
       setSnackbarMessage("Profile deleted successfully!");
       setOpenSnackbar(true);
-      // Optionally, redirect to login or home page
     } catch (error) {
       setSnackbarMessage("Failed to delete profile.");
       setOpenSnackbar(true);
@@ -65,15 +64,6 @@ const UserProfile = () => {
           User Profile
         </Typography>
         <TextField
-          label="Username"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={user.username}
-          onChange={(e) => setUser({ ...user, username: e.target.value })}
-          required
-        />
-        <TextField
           label="Email"
           variant="outlined"
           fullWidth
@@ -82,20 +72,29 @@ const UserProfile = () => {
           onChange={(e) => setUser({ ...user, email: e.target.value })}
           required
         />
+        <TextField
+          label="Username"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={user.username}
+          onChange={(e) => setUser({ ...user, username: e.target.value })}
+          required
+        />
         <Button
+          onClick={handleUpdate}
           variant="contained"
           color="primary"
           fullWidth
-          onClick={handleUpdate}
         >
           Update Profile
         </Button>
         <Button
+          onClick={handleDelete}
           variant="contained"
           color="secondary"
           fullWidth
-          onClick={handleDelete}
-          sx={{ mt: 2 }}
+          style={{ marginTop: "10px" }}
         >
           Delete Profile
         </Button>
