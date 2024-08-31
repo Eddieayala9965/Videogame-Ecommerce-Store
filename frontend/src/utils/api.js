@@ -37,6 +37,24 @@ export const loginUser = async (loginData) => {
   return api.post("/auth/login", loginData);
 };
 
+export const updateUser = async (userId, userData) => {
+  try {
+    const response = await api.put(`/auth/update_user/${userId}`, userData);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to update user");
+  }
+};
+
+export const deleteUser = async (userId) => {
+  try {
+    const response = await api.delete(`/auth/delete_user/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to delete user");
+  }
+};
+
 // Cart endpoints
 
 export const getCartItems = async (userId) => {

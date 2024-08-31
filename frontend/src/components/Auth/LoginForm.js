@@ -1,16 +1,24 @@
 import React, { useState } from "react";
 import { TextField, Button, Typography, Container, Box } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { login } from "../../redux/slices/authSlice";
+import { loginUser } from "../api"; // Import the login function from api.js
+import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login({ email, password }));
+    try {
+      const response = await loginUser({ username: email, password });
+
+      if (response.data.access_token) {
+        history.push("/dashboard");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   return (
