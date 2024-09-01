@@ -59,7 +59,7 @@ const CartSummary = () => {
       await deleteCartItem(cartId);
       setSnackbarMessage("Cart item deleted successfully!");
       setOpenSnackbar(true);
-      fetchCartItems(); // Re-fetch cart items after deletion
+      fetchCartItems();
     } catch (error) {
       setSnackbarMessage("Failed to delete cart item");
       setOpenSnackbar(true);

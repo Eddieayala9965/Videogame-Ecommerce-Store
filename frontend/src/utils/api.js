@@ -71,7 +71,7 @@ export const addToCart = async (cartItem) => {
 
 // Update the quantity of a specific cart item
 export const updateCartItem = async (cartId, newQuantity) => {
-  return api.put(`/cart/${cartId}`, { quantity: newQuantity }); // Correctly passing the quantity
+  return api.put(`/cart/${cartId}`, { quantity: newQuantity });
 };
 
 // Delete a specific cart item

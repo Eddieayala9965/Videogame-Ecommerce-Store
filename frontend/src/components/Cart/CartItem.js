@@ -31,15 +31,12 @@ const CartItem = ({ item, onIncrement, onDecrement, onDelete }) => {
         />
       )}
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Button
-          variant="outlined"
-          onClick={() => onIncrement(item.id)} // Call the increment function
-        >
+        <Button variant="outlined" onClick={() => onIncrement(item.id)}>
           +
         </Button>
         <Button
           variant="outlined"
-          onClick={() => onDecrement(item.id)} // Call the decrement function
+          onClick={() => onDecrement(item.id)}
           disabled={item.quantity <= 1}
           sx={{ marginLeft: 1, marginRight: 1 }}
         >
