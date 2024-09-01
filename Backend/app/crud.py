@@ -51,7 +51,16 @@ async def update_cart_item(db: AsyncSession, cart_id: UUID, cart_update: CartUpd
     await db.refresh(db_cart_item)
     return db_cart_item
 
-async def delete_cart_item(db: AsyncSession, cart_id: UUID):
+# async def delete_cart_item(db: AsyncSession, cart_id: UUID):
+#     """Delete an item from the cart."""
+#     db_cart_item = await db.get(Cart, cart_id)
+#     if db_cart_item is None:
+#         return None
+#     await db.delete(db_cart_item)
+#     await db.commit()
+#     return db_cart_item
+
+async def delete_cart_item_from_db(db: AsyncSession, cart_id: UUID):
     """Delete an item from the cart."""
     db_cart_item = await db.get(Cart, cart_id)
     if db_cart_item is None:

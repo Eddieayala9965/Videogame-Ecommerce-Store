@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.crud import get_cart_items, add_to_cart, update_cart_item, delete_cart_item
+from app.crud import get_cart_items, add_to_cart, update_cart_item, delete_cart_item_from_db
 from app.schemas import CartBase, CartOut
 from app.db import get_db
 from uuid import UUID
@@ -37,7 +37,7 @@ async def update_cart_item_quantity(cart_id: UUID, cart_update: CartBase, db: As
 
 @router.delete("/{cart_id}", response_model=CartOut)
 async def delete_cart_item(cart_id: UUID, db: AsyncSession = Depends(get_db)):
-    cart_item = await delete_cart_item(db, cart_id)
+    cart_item = await delete_cart_item_from_db(db, cart_id)
     if not cart_item:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cart item not found")
     return cart_item

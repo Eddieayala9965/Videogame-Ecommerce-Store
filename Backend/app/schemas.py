@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field  # Add Field import
+from pydantic import BaseModel, EmailStr, Field 
 from typing import Optional, List
 from uuid import UUID
 
