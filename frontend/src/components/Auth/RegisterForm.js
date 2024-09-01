@@ -8,7 +8,7 @@ import {
   Snackbar,
 } from "@mui/material";
 import { registerUser } from "../../utils/api";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const RegisterForm = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +16,7 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const history = useHistory();
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ const RegisterForm = () => {
       setSnackbarMessage("Registration successful!");
       setOpenSnackbar(true);
       setTimeout(() => {
-        history.push("/login");
+        router.push("/login");
       }, 2000);
     } catch (error) {
       setSnackbarMessage("Registration failed. Please try again.");

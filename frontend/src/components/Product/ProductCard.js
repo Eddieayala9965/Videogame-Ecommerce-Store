@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -26,8 +26,8 @@ const ProductCard = ({ product }) => {
       await addToCart(
         {
           gameID: product.gameID,
-          title: product.title,
-          price: product.salePrice,
+          title: product.external,
+          price: product.cheapest,
         },
         userId
       );
@@ -46,21 +46,23 @@ const ProductCard = ({ product }) => {
   const handleCloseSnackbar = () => setOpenSnackbar(false);
 
   return (
-    <Card>
+    <Card sx={{ margin: "auto", textAlign: "center", padding: 16 }}>
       <CardMedia
         component="img"
-        height="140"
-        image={product.thumb}
-        alt={product.title}
+        sx={{ height: 0, paddingTop: "100%", position: "relative" }}
+        image={product.thumb || "https://via.placeholder.com/150"}
+        alt={product.external}
       />
       <CardContent>
         <Typography variant="h5" component="div">
-          {product.title}
+          {product.external}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          ${product.salePrice}
-        </Typography>
-        <Box mt={2}>
+        <Box>
+          <Typography variant="body2" color="text.secondary">
+            Price: {product.cheapest}
+          </Typography>
+        </Box>
+        <Box>
           <Button variant="contained" color="primary" onClick={handleAddToCart}>
             Add to Cart
           </Button>
@@ -95,10 +97,10 @@ const ProductCard = ({ product }) => {
           }}
         >
           <Typography variant="h6" component="h2">
-            Reviews for {product.title}
+            Reviews for {product.external}
           </Typography>
           <ReviewForm productId={product.gameID} />
-          <ReviewList gameID={product.gameID} />
+          <ReviewList gameID={product.gameID} reviews={reviews} />
         </Box>
       </Modal>
     </Card>

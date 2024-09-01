@@ -25,6 +25,7 @@ const LoginForm = () => {
       if (response.data.access_token) {
         setSnackbarMessage("Login successful!");
         setOpenSnackbar(true);
+        Cookies.set("token", response.data.access_token);
         Cookies.set("user_id", response.data.user_id);
         setTimeout(() => {
           router.push("/dashboard");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -21,6 +21,12 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    // Check if the token exists to determine if the user is logged in
+    const token = Cookies.get("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
   const handleToggleDrawer = (open) => () => {
     setIsDrawerOpen(open);
   };
@@ -34,44 +40,33 @@ function Header() {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: "#000000" }}>
+      <AppBar position="static" sx={{ backgroundColor: "#f5f5f5" }}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={handleToggleDrawer(true)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" sx={{ flexGrow: 1, color: "#cc0000" }}>
+          <Typography variant="h6" sx={{ flexGrow: 1, color: "#333333" }}>
             Game Station
           </Typography>
           <Box>
-            <Button sx={{ color: "#ffffff" }} component={Link} href="/">
+            <Button sx={{ color: "#333333" }} component={Link} href="/">
               Home
             </Button>
-            <Button sx={{ color: "#ffffff" }} component={Link} href="/about">
-              About
-            </Button>
-            <Button sx={{ color: "#ffffff" }} component={Link} href="/contact">
-              Contact
+            <Button sx={{ color: "#333333" }} component={Link} href="/products">
+              Products
             </Button>
             {isLoggedIn ? (
-              <Button sx={{ color: "#ffffff" }} onClick={handleLogout}>
+              <Button sx={{ color: "#333333" }} onClick={handleLogout}>
                 Logout
               </Button>
             ) : (
               <>
                 <Button
-                  sx={{ color: "#ffffff" }}
+                  sx={{ color: "#333333" }}
                   component={Link}
                   href="/login"
                 >
                   Login
                 </Button>
                 <Button
-                  sx={{ color: "#ffffff" }}
+                  sx={{ color: "#333333" }}
                   component={Link}
                   href="/register"
                 >
@@ -79,6 +74,15 @@ function Header() {
                 </Button>
               </>
             )}
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleToggleDrawer(true)}
+              sx={{ color: "#4f4f4f" }}
+            >
+              <MenuIcon />
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
@@ -91,9 +95,9 @@ function Header() {
         <Box
           sx={{
             width: 250,
-            backgroundColor: "#333333",
+            backgroundColor: "#fafafa",
             height: "100%",
-            color: "#ffffff",
+            color: "#333333",
           }}
           role="presentation"
           onClick={handleToggleDrawer(false)}
