@@ -29,12 +29,15 @@ api.interceptors.response.use(
 
 // Auth endpoints
 
-export const registerUser = async (userData) => {
-  return api.post("/auth/register", userData);
+export const loginUser = async (loginData) => {
+  const formData = new URLSearchParams();
+  formData.append("username", loginData.username);
+  formData.append("password", loginData.password);
+  return api.post("/auth/login", formData);
 };
 
-export const loginUser = async (loginData) => {
-  return api.post("/auth/login", loginData);
+export const registerUser = async (userData) => {
+  return api.post("/auth/register", userData);
 };
 
 export const updateUser = async (userId, userData) => {

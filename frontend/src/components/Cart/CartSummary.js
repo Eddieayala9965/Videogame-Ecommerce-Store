@@ -1,81 +1,79 @@
-import React, { useState, useEffect } from "react";
-import { Box, Typography, Button, Snackbar } from "@mui/material";
+import React, { useState, useEffect, useCallback } from "react";
+import { List, Typography, Snackbar } from "@mui/material";
+import { getCartItems, updateCartItem, deleteCartItem } from "../../utils/api";
 import CartItem from "./CartItem";
-import { getCartItems } from "../../utils/api";
 
-const CartSummary = () => {
+const CartSummary = ({ userId }) => {
   const [cartItems, setCartItems] = useState([]);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const fetchCartItems = async () => {
+  const fetchCartItems = useCallback(async () => {
     try {
-      const response = await getCartItems();
+      const response = await getCartItems(userId);
       setCartItems(response.data);
     } catch (error) {
-      setSnackbarMessage("Failed to load cart items.");
+      setSnackbarMessage("Failed to load cart items");
+      setOpenSnackbar(true);
+    }
+  }, [userId, setCartItems, setSnackbarMessage, setOpenSnackbar]);
+
+  useEffect(() => {
+    fetchCartItems();
+  }, [fetchCartItems]);
+
+  const handleUpdateQuantity = async (cartId, newQuantity) => {
+    try {
+      await updateCartItem(cartId, { quantity: newQuantity });
+      setSnackbarMessage("Cart item updated successfully!");
+      setOpenSnackbar(true);
+      fetchCartItems();
+    } catch (error) {
+      setSnackbarMessage("Failed to update cart item");
       setOpenSnackbar(true);
     }
   };
 
-  useEffect(() => {
-    fetchCartItems();
-  }, []);
-
-  const handleUpdate = () => {
-    fetchCartItems();
-  };
-
-  const handleDelete = () => {
-    fetchCartItems();
+  const handleDeleteItem = async (cartId) => {
+    try {
+      await deleteCartItem(cartId);
+      setSnackbarMessage("Cart item deleted successfully!");
+      setOpenSnackbar(true);
+      fetchCartItems(); // Re-fetch cart items after deletion
+    } catch (error) {
+      setSnackbarMessage("Failed to delete cart item");
+      setOpenSnackbar(true);
+    }
   };
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
 
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-
   return (
-    <Box mt={5}>
-      <Typography variant="h4" component="h1" gutterBottom>
+    <>
+      <Typography variant="h4" component="h2" gutterBottom>
         Cart Summary
       </Typography>
-      {cartItems.length === 0 ? (
-        <Typography variant="body1">Your cart is empty.</Typography>
-      ) : (
-        <>
-          {cartItems.map((item) => (
-            <CartItem
-              key={item.id}
-              item={item}
-              onUpdate={handleUpdate}
-              onDelete={handleDelete}
-            />
-          ))}
-          <Box
-            mt={2}
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="h6">Total: ${total.toFixed(2)}</Typography>
-            <Button variant="contained" color="primary">
-              Proceed to Checkout
-            </Button>
-          </Box>
-        </>
-      )}
+      <List>
+        {cartItems.map((item) => (
+          <CartItem
+            key={item.id}
+            item={item}
+            onItemUpdated={(newQuantity) =>
+              handleUpdateQuantity(item.id, newQuantity)
+            }
+            onItemDeleted={() => handleDeleteItem(item.id)}
+          />
+        ))}
+      </List>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={4000}
         onClose={handleCloseSnackbar}
         message={snackbarMessage}
       />
-    </Box>
+    </>
   );
 };
 

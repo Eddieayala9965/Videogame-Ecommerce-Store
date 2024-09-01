@@ -8,25 +8,27 @@ import {
   Snackbar,
 } from "@mui/material";
 import { loginUser } from "../../utils/api";
-import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const history = useHistory();
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await loginUser({ username: email, password });
+      const response = await loginUser({ username, password });
       if (response.data.access_token) {
         setSnackbarMessage("Login successful!");
         setOpenSnackbar(true);
+        Cookies.set("user_id", response.data.user_id);
         setTimeout(() => {
-          history.push("/dashboard");
-        }, 2000); // Redirect after 2 seconds
+          router.push("/dashboard");
+        }, 2000);
       }
     } catch (error) {
       setSnackbarMessage("Login failed. Please check your credentials.");
@@ -46,12 +48,12 @@ const LoginForm = () => {
         </Typography>
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
-            label="Email"
+            label="Username" // Updated label to Username
             variant="outlined"
             fullWidth
             margin="normal"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username} // Updated value to username
+            onChange={(e) => setUsername(e.target.value)} // Updated state change handler
             required
           />
           <TextField
