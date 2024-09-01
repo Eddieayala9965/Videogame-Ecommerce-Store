@@ -12,21 +12,38 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str
 
-class UserUpdate(BaseModel):
-    username: Optional[str]
-    email: Optional[EmailStr]
-    password: Optional[str]  
-    is_active: Optional[bool] = True
-    profile_picture: Optional[str]
+# class UserUpdate(BaseModel):
+#     username: Optional[str]
+#     email: Optional[EmailStr]
+#     password: Optional[str]  
+#     is_active: Optional[bool] = True
+#     profile_picture: Optional[str]
 
-class UserOut(UserBase):
+# class UserOut(UserBase):
+#     id: UUID
+#     is_active: bool
+#     profile_picture: Optional[str]
+
+#     class Config:
+#         from_attributes = True
+
+
+class UserUpdate(BaseModel):
+    username: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+    is_active: Optional[bool] = True
+    profile_picture: Optional[str] = None
+
+class UserOut(BaseModel):
     id: UUID
+    username: str
+    email: EmailStr
     is_active: bool
-    profile_picture: Optional[str]
+    profile_picture: Optional[str]  
 
     class Config:
         from_attributes = True
-
 
 class CartBase(BaseModel):
     gameID: str
@@ -81,6 +98,24 @@ class ReviewBase(BaseModel):
 class ReviewOut(ReviewBase):
     id: UUID
     user_id: UUID
+
+    class Config:
+        from_attributes = True
+
+
+class UserDisplay(BaseModel):
+    username: str
+    email: EmailStr
+    profile_picture: Optional[str]
+
+    class Config:
+        from_attributes = True
+
+
+class TokenData(BaseModel):
+    username: str
+    email: EmailStr
+    profile_picture: Optional[str]
 
     class Config:
         from_attributes = True

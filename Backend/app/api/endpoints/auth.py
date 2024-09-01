@@ -1,16 +1,18 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
+import logging
 from sqlalchemy import select
 from datetime import datetime, timedelta
 import uuid
 import os
 from jose import JWTError, jwt
 from dotenv import load_dotenv
-
 from app.core.security import verify_password, get_password_hash
 from app import models, schemas
 from app.db import get_db
+from sqlalchemy.future import select
+from app.models import User
 
 load_dotenv()
 
@@ -22,6 +24,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 router = APIRouter()
    
+
+
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
@@ -38,6 +42,8 @@ async def get_user_by_username(db: AsyncSession, username: str):
     result = await db.execute(select(models.User).filter(models.User.username == username))
     return result.scalars().first()
 
+
+
 async def create_user(db: AsyncSession, user: schemas.UserCreate):
     """Create a new user."""
     hashed_password = get_password_hash(user.password)
@@ -51,16 +57,30 @@ async def create_user(db: AsyncSession, user: schemas.UserCreate):
     await db.refresh(db_user)
     return db_user
 
-async def update_user(db: AsyncSession, user_id: uuid.UUID, user: schemas.UserUpdate):
+async def update_user_service(db: AsyncSession, user_id: uuid.UUID, user: schemas.UserUpdate):
     """Update an existing user."""
     db_user = await db.get(models.User, user_id)
     if db_user is None:
-        return None
-    for key, value in user.dict(exclude_unset=True).items():
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    update_data = user.dict(exclude_unset=True)
+
+    if 'password' in update_data:
+        update_data['hashed_password'] = get_password_hash(update_data.pop('password'))
+
+    for key, value in update_data.items():
         setattr(db_user, key, value)
+
     await db.commit()
     await db.refresh(db_user)
     return db_user
+
+
+@router.put("/update_user/{user_id}")
+async def update_user_endpoint(user_id: uuid.UUID, user: schemas.UserUpdate, db: AsyncSession = Depends(get_db)):
+    updated_user = await update_user_service(db=db, user=user, user_id=user_id)
+    return updated_user
+
 
 async def delete_user(db: AsyncSession, user_id: uuid.UUID):
     """Delete a user by their UUID."""
@@ -113,9 +133,9 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     return {"access_token": access_token, "user_id": str(user.id)}
 
 
-@router.put("/update_user/{user_id}", response_model=schemas.UserOut)
-async def update_user(user_id: uuid.UUID, user: schemas.UserUpdate, db: AsyncSession = Depends(get_db)):
-    return await update_user(db=db, user=user, user_id=user_id)
+# @router.put("/update_user/{user_id}", response_model=schemas.UserOut)
+# async def update_user_endpoint(user_id: uuid.UUID, user: schemas.UserUpdate, db: AsyncSession = Depends(get_db)):
+#     return await update_user_service(db=db, user=user, user_id=user_id)
 
 @router.delete("/delete_user/{user_id}", response_model=None)
 async def delete_user(user_id: uuid.UUID, db: AsyncSession = Depends(get_db), current_user: schemas.UserOut = Depends(get_current_user)):
@@ -123,3 +143,16 @@ async def delete_user(user_id: uuid.UUID, db: AsyncSession = Depends(get_db), cu
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Operation not allowed")
     await delete_user(db=db, user_id=user_id)
     return {"message": "User deleted successfully"}
+
+
+@router.get("/user/{user_id}", response_model=schemas.UserDisplay)
+async def get_user_by_id(user_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
+    print(f"Fetching user with ID: {user_id}")  
+    user = await db.get(models.User, user_id)
+    if user is None:
+        print("User not found")  
+        raise HTTPException(status_code=404, detail="User not found")
+    print("User found:", user.username)  
+    return user
+
+
