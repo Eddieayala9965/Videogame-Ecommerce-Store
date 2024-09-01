@@ -40,11 +40,24 @@ export const registerUser = async (userData) => {
   return api.post("/auth/register", userData);
 };
 
+// export const updateUser = async (userId, userData) => {
+//   try {
+//     const response = await api.put(`/auth/update_user/${userId}`, userData);
+//     return response.data;
+//   } catch (error) {
+//     throw new Error("Failed to update user");
+//   }
+// };
+
 export const updateUser = async (userId, userData) => {
   try {
     const response = await api.put(`/auth/update_user/${userId}`, userData);
-    return response.data;
+    return response.data; // Return the updated user data
   } catch (error) {
+    console.error(
+      "Failed to update user:",
+      error.response ? error.response.data : error.message
+    );
     throw new Error("Failed to update user");
   }
 };
@@ -55,6 +68,15 @@ export const deleteUser = async (userId) => {
     return response.data;
   } catch (error) {
     throw new Error("Failed to delete user");
+  }
+};
+
+export const getUserProfile = async (userId) => {
+  try {
+    const response = await api.get(`/auth/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch user profile");
   }
 };
 
