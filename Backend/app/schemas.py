@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field  # Add Field import
 from typing import Optional, List
 from uuid import UUID
 
@@ -32,8 +32,9 @@ class CartBase(BaseModel):
     gameID: str
     title: str  
     price: float  
-    quantity: int
-    image_url: Optional[str] 
+    quantity: int = Field(..., gt=0)  
+    image_url: Optional[str]
+    user_id: UUID  
 
 class CartOut(CartBase):
     id: UUID
