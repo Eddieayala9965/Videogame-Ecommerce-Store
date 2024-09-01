@@ -70,13 +70,21 @@ export const addToCart = async (cartItem) => {
 };
 
 // Update the quantity of a specific cart item
-export const updateCartItem = async (cartId, cartItem) => {
-  return api.put(`/cart/${cartId}`, cartItem);
+export const updateCartItem = async (cartId, newQuantity) => {
+  return api.put(`/cart/${cartId}`, { quantity: newQuantity }); // Correctly passing the quantity
 };
 
 // Delete a specific cart item
 export const deleteCartItem = async (cartId) => {
   return api.delete(`/cart/${cartId}`);
+};
+
+export const incrementCartItem = async (cartId) => {
+  return api.put(`/cart/${cartId}/increment`);
+};
+
+export const decrementCartItem = async (cartId) => {
+  return api.put(`/cart/${cartId}/decrement`);
 };
 
 // order endpoints

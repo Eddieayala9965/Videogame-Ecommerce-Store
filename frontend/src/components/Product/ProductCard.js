@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
   const [reviews, setReviews] = useState([]);
 
   const handleAddToCart = async () => {
-    const userId = Cookies.get("user_id"); // Retrieve user_id directly from cookies
+    const userId = Cookies.get("user_id");
     if (!userId) {
       setSnackbarMessage("User not logged in.");
       setOpenSnackbar(true);
@@ -30,7 +30,7 @@ const ProductCard = ({ product }) => {
 
     try {
       await addToCart({
-        user_id: userId, // Pass the user_id from cookies
+        user_id: userId,
         gameID: product.gameID,
         title: product.external,
         price: product.cheapest,

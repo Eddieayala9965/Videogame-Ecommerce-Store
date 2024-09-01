@@ -1,8 +1,16 @@
 import React from "react";
-import { ListItem, ListItemText, IconButton, Typography } from "@mui/material";
+import {
+  ListItem,
+  ListItemText,
+  IconButton,
+  Typography,
+  Box,
+  Button,
+  CardMedia,
+} from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
-const CartItem = ({ item, onItemUpdated, onItemDeleted }) => {
+const CartItem = ({ item, onIncrement, onDecrement, onDelete }) => {
   return (
     <ListItem>
       <ListItemText
@@ -14,15 +22,33 @@ const CartItem = ({ item, onItemUpdated, onItemDeleted }) => {
           </>
         }
       />
-      <IconButton onClick={() => onItemUpdated(item.quantity + 1)}>
-        +
-      </IconButton>
-      <IconButton onClick={() => onItemUpdated(item.quantity - 1)}>
-        -
-      </IconButton>
-      <IconButton onClick={onItemDeleted}>
-        <Delete />
-      </IconButton>
+      {item.image_url && (
+        <CardMedia
+          component="img"
+          image={item.image_url}
+          alt={item.title}
+          style={{ width: 100, height: 100, marginRight: 16 }}
+        />
+      )}
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Button
+          variant="outlined"
+          onClick={() => onIncrement(item.id)} // Call the increment function
+        >
+          +
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => onDecrement(item.id)} // Call the decrement function
+          disabled={item.quantity <= 1}
+          sx={{ marginLeft: 1, marginRight: 1 }}
+        >
+          -
+        </Button>
+        <IconButton onClick={() => onDelete(item.id)}>
+          <Delete />
+        </IconButton>
+      </Box>
     </ListItem>
   );
 };

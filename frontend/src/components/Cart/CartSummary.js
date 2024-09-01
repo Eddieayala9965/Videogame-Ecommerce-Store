@@ -1,12 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { List, Typography, Snackbar } from "@mui/material";
-import { getCartItems, updateCartItem, deleteCartItem } from "../../utils/api";
+import {
+  getCartItems,
+  incrementCartItem,
+  decrementCartItem,
+  deleteCartItem,
+} from "../../utils/api";
 import CartItem from "./CartItem";
+import Cookies from "js-cookie";
 
-const CartSummary = ({ userId }) => {
+const CartSummary = () => {
   const [cartItems, setCartItems] = useState([]);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const userId = Cookies.get("user_id");
 
   const fetchCartItems = useCallback(async () => {
     try {
@@ -16,16 +24,28 @@ const CartSummary = ({ userId }) => {
       setSnackbarMessage("Failed to load cart items");
       setOpenSnackbar(true);
     }
-  }, [userId, setCartItems, setSnackbarMessage, setOpenSnackbar]);
+  }, [userId]);
 
   useEffect(() => {
     fetchCartItems();
   }, [fetchCartItems]);
 
-  const handleUpdateQuantity = async (cartId, newQuantity) => {
+  const handleIncrement = async (cartId) => {
     try {
-      await updateCartItem(cartId, { quantity: newQuantity });
-      setSnackbarMessage("Cart item updated successfully!");
+      await incrementCartItem(cartId);
+      setSnackbarMessage("Cart item quantity increased!");
+      setOpenSnackbar(true);
+      fetchCartItems();
+    } catch (error) {
+      setSnackbarMessage("Failed to update cart item");
+      setOpenSnackbar(true);
+    }
+  };
+
+  const handleDecrement = async (cartId) => {
+    try {
+      await decrementCartItem(cartId);
+      setSnackbarMessage("Cart item quantity decreased!");
       setOpenSnackbar(true);
       fetchCartItems();
     } catch (error) {
@@ -60,10 +80,9 @@ const CartSummary = ({ userId }) => {
           <CartItem
             key={item.id}
             item={item}
-            onItemUpdated={(newQuantity) =>
-              handleUpdateQuantity(item.id, newQuantity)
-            }
-            onItemDeleted={() => handleDeleteItem(item.id)}
+            onIncrement={handleIncrement}
+            onDecrement={handleDecrement}
+            onDelete={handleDeleteItem}
           />
         ))}
       </List>

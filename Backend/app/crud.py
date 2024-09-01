@@ -40,25 +40,20 @@ async def add_to_cart(db: AsyncSession, user_id: UUID, cart_item: CartBase):
     await db.refresh(db_cart_item)
     return db_cart_item
 
+
+
 async def update_cart_item(db: AsyncSession, cart_id: UUID, cart_update: CartUpdate):
     """Update the quantity of a cart item."""
     db_cart_item = await db.get(Cart, cart_id)
     if db_cart_item is None:
         return None
-    for key, value in cart_update.dict(exclude_unset=True).items():
+    for key, value in cart_update.model_dump(exclude_unset=True).items():
         setattr(db_cart_item, key, value)
     await db.commit()
     await db.refresh(db_cart_item)
     return db_cart_item
 
-# async def delete_cart_item(db: AsyncSession, cart_id: UUID):
-#     """Delete an item from the cart."""
-#     db_cart_item = await db.get(Cart, cart_id)
-#     if db_cart_item is None:
-#         return None
-#     await db.delete(db_cart_item)
-#     await db.commit()
-#     return db_cart_item
+
 
 async def delete_cart_item_from_db(db: AsyncSession, cart_id: UUID):
     """Delete an item from the cart."""
