@@ -62,15 +62,6 @@ export const updateUser = async (userId, userData) => {
   }
 };
 
-export const deleteUser = async (userId) => {
-  try {
-    const response = await api.delete(`/auth/delete_user/${userId}`);
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to delete user");
-  }
-};
-
 export const getUserProfile = async (userId) => {
   try {
     const response = await api.get(`/auth/user/${userId}`);
@@ -117,14 +108,6 @@ export const createOrder = async (orderData, userId) => {
 
 export const getUserOrders = async (userId) => {
   return api.get(`/orders?user_id=${userId}`);
-};
-
-export const updateOrderStatus = async (orderId, orderData) => {
-  return api.put(`/orders/${orderId}`, orderData);
-};
-
-export const deleteOrder = async (orderId) => {
-  return api.delete(`/orders/${orderId}`);
 };
 
 // review endpoints

@@ -8,7 +8,7 @@ import {
   Snackbar,
   Modal,
 } from "@mui/material";
-import { getUserProfile, updateUser, deleteUser } from "../utils/api"; // No need for uploadPhoto now
+import { getUserProfile, updateUser } from "../utils/api"; // Removed deleteUser import
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
@@ -50,18 +50,6 @@ const Profile = () => {
       setOpenModal(false);
     } catch (error) {
       setSnackbarMessage("Failed to update profile");
-      setOpenSnackbar(true);
-    }
-  };
-
-  const handleDeleteAccount = async () => {
-    try {
-      await deleteUser(userId);
-      Cookies.remove("token");
-      Cookies.remove("user_id");
-      router.push("/login");
-    } catch (error) {
-      setSnackbarMessage("Failed to delete account");
       setOpenSnackbar(true);
     }
   };
@@ -116,12 +104,6 @@ const Profile = () => {
           onClick={() => router.push("/order-history")}
         >
           View Order History
-        </Button>
-      </Box>
-
-      <Box mt={3}>
-        <Button variant="contained" color="error" onClick={handleDeleteAccount}>
-          Delete Account
         </Button>
       </Box>
 
