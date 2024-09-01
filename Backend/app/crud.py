@@ -90,25 +90,9 @@ async def get_user_orders(db: AsyncSession, user_id: UUID):
     result = await db.execute(stmt)
     return result.scalars().all()
 
-async def update_order_status(db: AsyncSession, order_id: UUID, order_update: OrderUpdate):
-    """Update the status of an order."""
-    db_order = await db.get(Order, order_id)
-    if db_order is None:
-        return None
-    for key, value in order_update.dict(exclude_unset=True).items():
-        setattr(db_order, key, value)
-    await db.commit()
-    await db.refresh(db_order)
-    return db_order
 
-async def delete_order(db: AsyncSession, order_id: UUID):
-    """Delete an order."""
-    db_order = await db.get(Order, order_id)
-    if db_order is None:
-        return None
-    await db.delete(db_order)
-    await db.commit()
-    return db_order
+
+
 
 
 # Review CRUD Operations
