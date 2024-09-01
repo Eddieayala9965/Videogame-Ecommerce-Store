@@ -67,18 +67,19 @@ class CartUpdate(BaseModel):
         from_attributes = True
 
 
+
+# Define the schema
 class OrderBase(BaseModel):
     gameID: str
     title: str  
     price: float  
     quantity: int
-    image_url: Optional[str]  
+    image_url: Optional[str] = None
     total_price: float
     status: Optional[str] = "Pending"
+    user_id: UUID  # Keep user_id required
 
-class OrderOut(OrderBase):
-    id: UUID
-    user_id: UUID
+
 
     class Config:
         from_attributes = True

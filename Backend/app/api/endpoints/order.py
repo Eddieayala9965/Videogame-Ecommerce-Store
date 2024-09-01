@@ -2,19 +2,32 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud import create_order, get_user_orders
-from app.schemas import OrderBase, OrderOut
+from app.schemas import OrderBase
 from ...db import get_db
 from uuid import UUID
 
 router = APIRouter()
 
-@router.post("/", response_model=OrderOut, status_code=status.HTTP_201_CREATED)
-async def create_new_order(order: OrderBase, user_id: UUID, db: AsyncSession = Depends(get_db)):
-    return await create_order(db, user_id, order)
+@router.post("/", response_model=OrderBase, status_code=status.HTTP_201_CREATED)
+async def create_new_order(order: OrderBase, db: AsyncSession = Depends(get_db)):
+    return await create_order(db, order)
 
-@router.get("/", response_model=List[OrderOut])
+@router.get("/", response_model=List[OrderBase])
 async def read_user_orders(user_id: UUID, db: AsyncSession = Depends(get_db)):
-    return await create_order(db, user_id)
+    return await get_user_orders(db, user_id)
+
+# Create order function
+
+
+
+
+# @router.post("/", response_model=OrderOut, status_code=status.HTTP_201_CREATED)
+# async def create_new_order(order: OrderBase, user_id: UUID, db: AsyncSession = Depends(get_db)):
+#     return await create_order(db, user_id, order)
+
+# @router.get("/", response_model=List[OrderOut])
+# async def read_user_orders(user_id: UUID, db: AsyncSession = Depends(get_db)):
+#     return await get_user_orders(db, user_id)
 
 # @router.put("/{order_id}", response_model=OrderOut)
 # async def update_order(order_id: UUID, order_update: OrderBase, db: AsyncSession = Depends(get_db)):
