@@ -103,14 +103,11 @@ function Header() {
           onKeyDown={handleToggleDrawer(false)}
         >
           <List>
-            <ListItem button component={Link} href="/dashboard">
-              <ListItemText primary="Dashboard" />
-            </ListItem>
             <ListItem button component={Link} href="/profile">
               <ListItemText primary="Profile" />
             </ListItem>
-            <ListItem button component={Link} href="/settings">
-              <ListItemText primary="Settings" />
+            <ListItem button component={Link} href="/cart">
+              <ListItemText primary="Cart" />
             </ListItem>
           </List>
         </Box>

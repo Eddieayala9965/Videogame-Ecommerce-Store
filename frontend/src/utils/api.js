@@ -61,17 +61,20 @@ export const deleteUser = async (userId) => {
 // Cart endpoints
 
 export const getCartItems = async (userId) => {
-  return api.get(`/cart?user_id=${userId}`);
+  return api.get(`/cart`, { params: { user_id: userId } });
 };
 
-export const addToCart = async (cartItem, userId) => {
-  return api.post(`/cart/${userId}`, cartItem);
+// Add an item to the user's cart
+export const addToCart = async (cartItem) => {
+  return api.post(`/cart`, cartItem);
 };
 
+// Update the quantity of a specific cart item
 export const updateCartItem = async (cartId, cartItem) => {
   return api.put(`/cart/${cartId}`, cartItem);
 };
 
+// Delete a specific cart item
 export const deleteCartItem = async (cartId) => {
   return api.delete(`/cart/${cartId}`);
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -21,16 +21,22 @@ const ProductCard = ({ product }) => {
   const [reviews, setReviews] = useState([]);
 
   const handleAddToCart = async () => {
-    const userId = Cookies.get("user_id");
+    const userId = Cookies.get("user_id"); // Retrieve user_id directly from cookies
+    if (!userId) {
+      setSnackbarMessage("User not logged in.");
+      setOpenSnackbar(true);
+      return;
+    }
+
     try {
-      await addToCart(
-        {
-          gameID: product.gameID,
-          title: product.external,
-          price: product.cheapest,
-        },
-        userId
-      );
+      await addToCart({
+        user_id: userId, // Pass the user_id from cookies
+        gameID: product.gameID,
+        title: product.external,
+        price: product.cheapest,
+        quantity: 1,
+        image_url: product.thumb || "https://via.placeholder.com/150",
+      });
       setSnackbarMessage("Product added to cart!");
       setOpenSnackbar(true);
     } catch (error) {
@@ -61,9 +67,9 @@ const ProductCard = ({ product }) => {
         sx={{
           height: 275,
           width: "100%",
-          objectFit: "contain", // Ensure the entire image fits within the container
+          objectFit: "contain",
           objectPosition: "center",
-          backgroundColor: "#f5f5f5", // Optional: Add a background color to fill the space around the image
+          backgroundColor: "#f5f5f5",
         }}
         image={product.thumb || "https://via.placeholder.com/150"}
         alt={product.external}
