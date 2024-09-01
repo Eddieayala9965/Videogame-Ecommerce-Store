@@ -49,12 +49,12 @@ const LoginForm = () => {
         </Typography>
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
-            label="Username" // Updated label to Username
+            label="Username"
             variant="outlined"
             fullWidth
             margin="normal"
-            value={username} // Updated value to username
-            onChange={(e) => setUsername(e.target.value)} // Updated state change handler
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
           <TextField

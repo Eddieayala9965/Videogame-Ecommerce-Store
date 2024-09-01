@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { List, Typography, Snackbar } from "@mui/material";
+import { List, Typography, Button, Snackbar, Box } from "@mui/material";
 import {
   getCartItems,
   incrementCartItem,
   decrementCartItem,
   deleteCartItem,
+  createOrder,
 } from "../../utils/api";
 import CartItem from "./CartItem";
 import Cookies from "js-cookie";
@@ -66,6 +67,39 @@ const CartSummary = () => {
     }
   };
 
+  const handleCheckout = async () => {
+    if (!userId) {
+      setSnackbarMessage("User ID not found. Please log in.");
+      setOpenSnackbar(true);
+      return;
+    }
+
+    try {
+      const orderData = {
+        gameID: cartItems.map((item) => item.gameID).join(", "),
+        title: cartItems.map((item) => item.title).join(", "),
+        price: cartItems.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        ),
+        quantity: cartItems.reduce((acc, item) => acc + item.quantity, 0),
+        image_url: cartItems.map((item) => item.image_url).join(", "),
+        total_price: cartItems.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        ),
+      };
+
+      await createOrder(orderData, userId);
+      setSnackbarMessage("Order placed successfully!");
+      setOpenSnackbar(true);
+      setCartItems([]);
+    } catch (error) {
+      setSnackbarMessage("Failed to place order.");
+      setOpenSnackbar(true);
+    }
+  };
+
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
@@ -86,6 +120,11 @@ const CartSummary = () => {
           />
         ))}
       </List>
+      <Box mt={2} textAlign="center">
+        <Button variant="contained" color="primary" onClick={handleCheckout}>
+          Checkout
+        </Button>
+      </Box>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={4000}

@@ -8,7 +8,7 @@ import {
   Snackbar,
   Modal,
 } from "@mui/material";
-import { getUserProfile, updateUser } from "../utils/api"; // Removed deleteUser import
+import { getUserProfile, updateUser } from "../utils/api";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
@@ -19,7 +19,7 @@ const Profile = () => {
   const [profilePicture, setProfilePicture] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [openModal, setOpenModal] = useState(false); // State to control modal
+  const [openModal, setOpenModal] = useState(false);
 
   const router = useRouter();
   const userId = Cookies.get("user_id");
@@ -76,7 +76,7 @@ const Profile = () => {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      minHeight="100vh" // This centers content vertically
+      minHeight="100vh"
     >
       <Typography variant="h4" gutterBottom>
         Profile

@@ -107,7 +107,7 @@ export const createOrder = async (orderData, userId) => {
 };
 
 export const getUserOrders = async (userId) => {
-  return api.get(`/orders?user_id=${userId}`);
+  return api.get(`/orders`, { params: { user_id: userId } });
 };
 
 // review endpoints

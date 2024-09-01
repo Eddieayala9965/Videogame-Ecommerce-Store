@@ -6,8 +6,8 @@ const Footer = () => {
     <Box
       sx={{
         width: "100%",
-        bgcolor: "#e0e0e0", // Very light grey background
-        color: "#4f4f4f", // Darker grey for text
+        bgcolor: "#e0e0e0",
+        color: "#4f4f4f",
         mt: "auto",
         py: 2,
         position: "fixed",
@@ -17,12 +17,11 @@ const Footer = () => {
     >
       <Container maxWidth="lg">
         <Typography variant="body1" align="center">
-          &copy; {new Date().getFullYear()} Video Game E-Commerce Store
+          &copy; {new Date().getFullYear()} Game Station
         </Typography>
         <Typography variant="body2" align="center">
           <Link href="/privacy" sx={{ color: "#4f4f4f" }}>
             {" "}
-            {/* Consistent dark grey link */}
             Privacy Policy
           </Link>{" "}
           |{" "}
