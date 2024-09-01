@@ -3,6 +3,8 @@ from typing import Optional, List
 from uuid import UUID
 
 
+
+
 class UserBase(BaseModel):
     username: str
     email: EmailStr
