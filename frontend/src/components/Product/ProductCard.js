@@ -46,10 +46,25 @@ const ProductCard = ({ product }) => {
   const handleCloseSnackbar = () => setOpenSnackbar(false);
 
   return (
-    <Card sx={{ margin: "auto", textAlign: "center", padding: 16 }}>
+    <Card
+      sx={{
+        width: 375,
+        margin: 1,
+        textAlign: "center",
+        padding: 2,
+        borderRadius: 2,
+        boxShadow: 3,
+      }}
+    >
       <CardMedia
         component="img"
-        sx={{ height: 0, paddingTop: "100%", position: "relative" }}
+        sx={{
+          height: 275,
+          width: "100%",
+          objectFit: "contain", // Ensure the entire image fits within the container
+          objectPosition: "center",
+          backgroundColor: "#f5f5f5", // Optional: Add a background color to fill the space around the image
+        }}
         image={product.thumb || "https://via.placeholder.com/150"}
         alt={product.external}
       />

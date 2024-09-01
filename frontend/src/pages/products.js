@@ -36,15 +36,16 @@ const Products = () => {
 
   return (
     <Box mt={3}>
-      <Box display="flex" justifyContent="center">
+      <Box display="flex" justifyContent="center" mb={2}>
         <TextField
           label="Search Games"
           variant="outlined"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+          onKeyPress={(e) => e.key === "Enter" && fetchGames()}
           fullWidth
           margin="normal"
+          sx={{ maxWidth: 600 }}
         />
         <Button
           variant="contained"
@@ -55,7 +56,13 @@ const Products = () => {
           Search
         </Button>
       </Box>
-      <Grid container spacing={2} mt={3}>
+      <Grid
+        container
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+        sx={{ maxWidth: 1200, margin: "0 auto" }}
+      >
         {products.map((product) => (
           <Grid item xs={12} sm={6} md={4} key={product.gameID}>
             <ProductCard product={product} />

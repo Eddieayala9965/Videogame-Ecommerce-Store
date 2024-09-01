@@ -22,7 +22,6 @@ function Header() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if the token exists to determine if the user is logged in
     const token = Cookies.get("token");
     setIsLoggedIn(!!token);
   }, []);
@@ -42,6 +41,15 @@ function Header() {
     <>
       <AppBar position="static" sx={{ backgroundColor: "#f5f5f5" }}>
         <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={handleToggleDrawer(true)}
+            sx={{ color: "#4f4f4f" }}
+          >
+            <MenuIcon />
+          </IconButton>
           <Typography variant="h6" sx={{ flexGrow: 1, color: "#333333" }}>
             Game Station
           </Typography>
@@ -74,15 +82,6 @@ function Header() {
                 </Button>
               </>
             )}
-            <IconButton
-              edge="end"
-              color="inherit"
-              aria-label="menu"
-              onClick={handleToggleDrawer(true)}
-              sx={{ color: "#4f4f4f" }}
-            >
-              <MenuIcon />
-            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
