@@ -82,15 +82,6 @@ async def update_user_endpoint(user_id: uuid.UUID, user: schemas.UserUpdate, db:
     return updated_user
 
 
-# async def delete_user(db: AsyncSession, user_id: uuid.UUID):
-#     """Delete a user by their UUID."""
-#     db_user = await db.get(models.User, user_id)
-#     if db_user is None:
-#         return None
-#     await db.delete(db_user)
-#     await db.commit()
-#     return db_user
-
 async def get_current_user(db: AsyncSession = Depends(get_db), token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -133,9 +124,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     return {"access_token": access_token, "user_id": str(user.id)}
 
 
-# @router.put("/update_user/{user_id}", response_model=schemas.UserOut)
-# async def update_user_endpoint(user_id: uuid.UUID, user: schemas.UserUpdate, db: AsyncSession = Depends(get_db)):
-#     return await update_user_service(db=db, user=user, user_id=user_id)
 
 async def delete_user_service(db: AsyncSession, user_id: uuid.UUID):
     """Delete a user by their UUID."""
@@ -145,8 +133,6 @@ async def delete_user_service(db: AsyncSession, user_id: uuid.UUID):
     await db.delete(db_user)
     await db.commit()
     return db_user
-
-
 
 
 

@@ -68,27 +68,6 @@ async def delete_cart_item_from_db(db: AsyncSession, cart_id: UUID):
 # Order CRUD Operations
 
 
-# async def create_order(db: AsyncSession, user_id: UUID, order: OrderBase):
-#     """Create a new order for the user."""
-#     db_order = Order(
-#         user_id=user_id,
-#         gameID=order.gameID,
-#         title=order.title,
-#         price=order.price,
-#         quantity=order.quantity,
-#         image_url=order.image_url,
-#         total_price=order.total_price
-#     )
-#     db.add(db_order)
-#     await db.commit()
-#     await db.refresh(db_order)
-#     return db_order
-
-# async def get_user_orders(db: AsyncSession, user_id: UUID):
-#     """Fetch all orders for a user."""
-#     stmt = select(Order).where(Order.user_id == user_id)
-#     result = await db.execute(stmt)
-#     return result.scalars().all()
 
 
 async def create_order(db: AsyncSession, order: OrderBase):

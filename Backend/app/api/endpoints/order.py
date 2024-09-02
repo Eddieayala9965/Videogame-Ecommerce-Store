@@ -20,15 +20,6 @@ async def read_user_orders(user_id: UUID, db: AsyncSession = Depends(get_db)):
 
 
 
-
-# @router.post("/", response_model=OrderOut, status_code=status.HTTP_201_CREATED)
-# async def create_new_order(order: OrderBase, user_id: UUID, db: AsyncSession = Depends(get_db)):
-#     return await create_order(db, user_id, order)
-
-# @router.get("/", response_model=List[OrderOut])
-# async def read_user_orders(user_id: UUID, db: AsyncSession = Depends(get_db)):
-#     return await get_user_orders(db, user_id)
-
 # @router.put("/{order_id}", response_model=OrderOut)
 # async def update_order(order_id: UUID, order_update: OrderBase, db: AsyncSession = Depends(get_db)):
 #     order = await update_order_status(db, order_id, order_update)
