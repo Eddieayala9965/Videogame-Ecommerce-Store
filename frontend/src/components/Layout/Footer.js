@@ -10,8 +10,6 @@ const Footer = () => {
         color: "#4f4f4f",
         mt: "auto",
         py: 2,
-        position: "fixed",
-        bottom: 0,
       }}
       component="footer"
     >

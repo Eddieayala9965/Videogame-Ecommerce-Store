@@ -101,7 +101,7 @@ const Profile = () => {
         <Button
           variant="outlined"
           color="secondary"
-          onClick={() => router.push("/order-history")}
+          onClick={() => router.push("/orders")}
         >
           View Order History
         </Button>

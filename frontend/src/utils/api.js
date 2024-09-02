@@ -40,15 +40,6 @@ export const registerUser = async (userData) => {
   return api.post("/auth/register", userData);
 };
 
-// export const updateUser = async (userId, userData) => {
-//   try {
-//     const response = await api.put(`/auth/update_user/${userId}`, userData);
-//     return response.data;
-//   } catch (error) {
-//     throw new Error("Failed to update user");
-//   }
-// };
-
 export const updateUser = async (userId, userData) => {
   try {
     const response = await api.put(`/auth/update_user/${userId}`, userData);

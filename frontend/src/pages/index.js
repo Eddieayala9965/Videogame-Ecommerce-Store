@@ -1,50 +1,64 @@
 import React from "react";
-import { Container, Typography, Button, Box } from "@mui/material";
-import { useRouter } from "next/router";
+import { Container, Box, AppBar, Toolbar, Link } from "@mui/material";
+import GameTrailer from "../components/ui/GameTrailer";
+import ImageSlider from "../components/ui/ImageSlider";
+import GameConsolesScroller from "../components/ui/GameConsolesScroller";
+import Footer from "../components/Layout/Footer";
 
 const HomePage = () => {
-  const router = useRouter();
-
-  const handleLogin = () => {
-    router.push("/login");
-  };
-
   return (
-    <Container
-      maxWidth="sm"
+    <Box
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
         minHeight: "100vh",
-        textAlign: "center",
       }}
     >
-      <Typography
-        variant="h3"
-        component="h1"
-        gutterBottom
-        sx={{ color: "#333333" }}
+      <AppBar
+        position="static"
+        color="default"
+        sx={{ backgroundColor: "#f5f5f5", mb: 4 }}
       >
-        Welcome to the Video Game E-Commerce Store!
-      </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleLogin}
+        <Toolbar
+          sx={{
+            justifyContent: "center",
+            overflowX: "auto",
+            "& a": {
+              textDecoration: "none",
+              color: "#333",
+              padding: "0 15px",
+              "&:hover": {
+                color: "#000",
+              },
+            },
+          }}
+        >
+          <Link href="#">New Releases</Link>
+          <Link href="#">Top Deals</Link>
+          <Link href="#">Best Sellers</Link>
+          <Link href="#">Pre-Owned</Link>
+          <Link href="#">Collectibles</Link>
+          <Link href="#">Consoles</Link>
+          <Link href="#">Video Games</Link>
+        </Toolbar>
+      </AppBar>
+      <GameTrailer />
+      <ImageSlider />
+      <GameConsolesScroller />
+      <Container
+        maxWidth="sm"
         sx={{
-          mt: 3,
-          backgroundColor: "#3f51b5",
-          color: "#ffffff",
-          "&:hover": {
-            backgroundColor: "#303f9f",
-          },
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          mb: 4,
         }}
-      >
-        Login
-      </Button>
-    </Container>
+      ></Container>
+      <Footer />
+    </Box>
   );
 };
 

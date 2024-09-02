@@ -109,6 +109,9 @@ function Header() {
             <ListItem button component={Link} href="/cart">
               <ListItemText primary="Cart" />
             </ListItem>
+            <ListItem button component={Link} href="/orders">
+              <ListItemText primary="Order History" />
+            </ListItem>
           </List>
         </Box>
       </Drawer>

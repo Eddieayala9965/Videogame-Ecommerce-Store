@@ -47,14 +47,6 @@ const Products = () => {
           margin="normal"
           sx={{ maxWidth: 600 }}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setQuery(query)}
-          sx={{ ml: 2 }}
-        >
-          Search
-        </Button>
       </Box>
       <Grid
         container

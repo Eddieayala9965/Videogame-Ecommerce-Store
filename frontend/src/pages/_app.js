@@ -11,7 +11,6 @@ function MyApp({ Component, pageProps }) {
       <Header />
 
       <Component {...pageProps} />
-      <Footer />
     </Provider>
   );
 }
