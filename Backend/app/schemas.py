@@ -83,9 +83,41 @@ class OrderBase(BaseModel):
     billing_zip_code: str
 
 
+    class Config:
+        from_attributes = True
+        
+        
+        
+        
+class OrderBaseGet(BaseModel):
+    id: UUID  
+    gameID: str
+    title: str  
+    price: float  
+    quantity: int
+    image_url: Optional[str] = None
+    total_price: float
+    status: Optional[str] = "Pending"
+    user_id: UUID
+
+    name: str
+    email: EmailStr
+    address: str
+    city: str
+    state: str
+    zip_code: str
+
+    payment_method: str
+    card_number: str
+    card_expiration_date: str 
+    billing_address: str
+    billing_city: str
+    billing_state: str
+    billing_zip_code: str
 
     class Config:
         from_attributes = True
+
 
 class OrderUpdate(BaseModel):
     status: Optional[str]

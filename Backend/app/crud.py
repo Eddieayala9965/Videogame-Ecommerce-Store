@@ -102,14 +102,17 @@ async def create_order(db: AsyncSession, order: OrderBase):
     await db.refresh(db_order)
     return db_order
 
+
+
 async def get_user_orders(db: AsyncSession, user_id: UUID):
     """Fetch all orders for a specific user."""
     stmt = select(Order).where(Order.user_id == user_id)
     result = await db.execute(stmt)
-    return result.scalars().all()
+    return result.scalars().all() 
 
 
-async def delete_order(db: AsyncSession, order_id: UUID) -> Order:
+
+async def delete_user_order(db: AsyncSession, order_id: UUID) -> Order:
     order = await db.get(Order, order_id)
     if order:
         await db.delete(order)
