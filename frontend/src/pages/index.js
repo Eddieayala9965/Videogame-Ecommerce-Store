@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Box, AppBar, Toolbar, Link } from "@mui/material";
-import GameTrailer from "../components/ui/GameTrailer";
 import ImageSlider from "../components/ui/ImageSlider";
 import GameConsolesScroller from "../components/ui/GameConsolesScroller";
 import Footer from "../components/Layout/Footer";
@@ -42,7 +41,6 @@ const HomePage = () => {
           <Link href="#">Video Games</Link>
         </Toolbar>
       </AppBar>
-      <GameTrailer />
       <ImageSlider />
       <GameConsolesScroller />
       <Container
