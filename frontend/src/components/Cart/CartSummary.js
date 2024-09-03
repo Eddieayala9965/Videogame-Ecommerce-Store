@@ -29,6 +29,7 @@ const CartSummary = () => {
   const [openModal, setOpenModal] = useState(false);
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
+  const [shipping, setShipping] = useState(9.99);
 
   const userId = Cookies.get("user_id");
 
@@ -94,9 +95,12 @@ const CartSummary = () => {
     }
 
     try {
-      const totalAfterDiscount = subtotal - discount;
-      const finalTotal =
-        totalAfterDiscount + parseFloat(estimatedTax) + shipping;
+      const totalAfterDiscount = (
+        cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0) -
+        discount +
+        parseFloat(estimatedTax) +
+        shipping
+      ).toFixed(2);
 
       const orderData = {
         ...formData,
@@ -108,7 +112,7 @@ const CartSummary = () => {
         ),
         quantity: cartItems.reduce((acc, item) => acc + item.quantity, 0),
         image_url: cartItems.map((item) => item.image_url).join(", "),
-        total_price: finalTotal.toFixed(2),
+        total_price: totalAfterDiscount,
       };
 
       await createOrder(orderData, userId);
@@ -120,6 +124,10 @@ const CartSummary = () => {
       }
 
       setCartItems([]);
+      setDiscount(0);
+      setShipping(9.99);
+      setPromoCode("");
+      setOpenModal(false);
     } catch (error) {
       setSnackbarMessage("Failed to place order.");
       setOpenSnackbar(true);
@@ -151,7 +159,6 @@ const CartSummary = () => {
   );
 
   const estimatedTax = (subtotal * 0.0725).toFixed(2);
-  const shipping = subtotal > 79 ? 0 : 9.99;
   const totalAfterDiscount = subtotal - discount;
 
   return (
