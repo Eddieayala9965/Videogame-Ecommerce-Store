@@ -11,8 +11,6 @@ import {
 } from "@mui/material";
 import { addToCart } from "../../utils/api";
 import Cookies from "js-cookie";
-import ReviewList from "../Review/ReviewList";
-import ReviewForm from "../Review/ReviewForm";
 
 const ProductCard = ({ product }) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -87,14 +85,6 @@ const ProductCard = ({ product }) => {
           <Button variant="contained" color="primary" onClick={handleAddToCart}>
             Add to Cart
           </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={handleOpenModal}
-            sx={{ ml: 2 }}
-          >
-            View/Add Reviews
-          </Button>
         </Box>
       </CardContent>
 
@@ -116,13 +106,7 @@ const ProductCard = ({ product }) => {
             bgcolor: "background.paper",
             p: 4,
           }}
-        >
-          <Typography variant="h6" component="h2">
-            Reviews for {product.external}
-          </Typography>
-          <ReviewForm productId={product.gameID} />
-          <ReviewList gameID={product.gameID} reviews={reviews} />
-        </Box>
+        ></Box>
       </Modal>
     </Card>
   );
