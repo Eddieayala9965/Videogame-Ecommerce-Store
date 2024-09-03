@@ -6,6 +6,7 @@ import {
   Container,
   Box,
   Snackbar,
+  Link as MuiLink,
 } from "@mui/material";
 import { loginUser } from "../../utils/api";
 import Cookies from "js-cookie";
@@ -28,7 +29,7 @@ const LoginForm = () => {
         Cookies.set("token", response.data.access_token);
         Cookies.set("user_id", response.data.user_id);
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push("/");
         }, 2000);
       }
     } catch (error) {
@@ -42,10 +43,13 @@ const LoginForm = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box mt={5}>
+    <Container maxWidth="xs">
+      <Box mt={8} sx={{ textAlign: "center" }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Login
+          Welcome to Game Station
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: 4 }}>
+          Sign in to your Game Station account
         </Typography>
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
@@ -67,9 +71,27 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            Login
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ backgroundColor: "#e60023", marginBottom: 2 }}
+          >
+            Sign In
           </Button>
+          <Typography variant="body2" sx={{ margin: "16px 0" }}>
+            OR
+          </Typography>
+          <MuiLink href="/register" underline="none">
+            <Button
+              variant="outlined"
+              fullWidth
+              sx={{ borderColor: "#333", color: "#333" }}
+            >
+              Create Account
+            </Button>
+          </MuiLink>
         </Box>
       </Box>
       <Snackbar

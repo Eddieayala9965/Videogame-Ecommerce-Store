@@ -104,10 +104,23 @@ const CheckoutModal = ({ open, handleClose, handleProceedToCheckout }) => {
       .replace(/\s?/g, "")
       .replace(/(\d{4})/g, "$1 ")
       .trim();
-    setFormData((prevData) => ({
-      ...prevData,
-      card_number: formattedValue,
-    }));
+    if (formattedValue.length <= 19) {
+      // 16 digits + 3 spaces
+      setFormData((prevData) => ({
+        ...prevData,
+        card_number: formattedValue,
+      }));
+    }
+  };
+
+  const handleCVVChange = (event) => {
+    const { value } = event.target;
+    if (value.length <= 3) {
+      setFormData((prevData) => ({
+        ...prevData,
+        card_cvv: value,
+      }));
+    }
   };
 
   const handleSubmit = () => {
@@ -206,6 +219,7 @@ const CheckoutModal = ({ open, handleClose, handleProceedToCheckout }) => {
                 fullWidth
                 name="card_number"
                 label="Card Number"
+                type="text"
                 value={formData.card_number}
                 onChange={handleCardNumberChange}
               />
@@ -247,8 +261,9 @@ const CheckoutModal = ({ open, handleClose, handleProceedToCheckout }) => {
                 fullWidth
                 name="card_cvv"
                 label="CVV"
+                type="text" // Change type to text
                 value={formData.card_cvv}
-                onChange={handleInputChange}
+                onChange={handleCVVChange}
               />
             </Grid>
             <Grid item xs={12}>

@@ -6,6 +6,12 @@ import {
   Container,
   Box,
   Snackbar,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+  Link,
 } from "@mui/material";
 import { registerUser } from "../../utils/api";
 import { useRouter } from "next/router";
@@ -38,10 +44,14 @@ const RegisterForm = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box mt={5}>
+    <Container maxWidth="md">
+      <Box mt={5} sx={{ textAlign: "center" }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Register
+          Create Account
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: 4 }}>
+          Create your Game Station account, then join Pro to start earning
+          points and rewards today!
         </Typography>
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
@@ -72,9 +82,24 @@ const RegisterForm = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            Register
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ backgroundColor: "#e60023", marginTop: 3 }}
+          >
+            Submit
           </Button>
+          <Typography
+            variant="body2"
+            sx={{ textAlign: "center", marginTop: 2 }}
+          >
+            By clicking "Create Account", I acknowledge and agree to Game
+            Station's <Link href="/privacy-policy">Privacy Policy</Link>,{" "}
+            <Link href="/terms">Conditions of Use</Link>, and{" "}
+            <Link href="/terms">Terms & Conditions</Link>.
+          </Typography>
         </Box>
       </Box>
       <Snackbar
