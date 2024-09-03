@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ListItem,
   ListItemText,
@@ -7,10 +7,25 @@ import {
   Box,
   Button,
   CardMedia,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
-const CartItem = ({ item, onIncrement, onDecrement, onDelete }) => {
+const CartItem = ({
+  item,
+  onIncrement,
+  onDecrement,
+  onDelete,
+  onToggleWarranty,
+}) => {
+  const [warranty, setWarranty] = useState(false);
+
+  const handleToggleWarranty = () => {
+    setWarranty(!warranty);
+    onToggleWarranty(item.id, !warranty);
+  };
+
   return (
     <ListItem
       sx={{
@@ -47,6 +62,15 @@ const CartItem = ({ item, onIncrement, onDecrement, onDelete }) => {
                 Price: ${item.price.toFixed(2)}
               </Typography>
               <Typography variant="body2">Quantity: {item.quantity}</Typography>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={warranty}
+                    onChange={handleToggleWarranty}
+                  />
+                }
+                label="Add Warranty ($9.99)"
+              />
             </>
           }
         />

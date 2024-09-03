@@ -30,6 +30,7 @@ const CartSummary = () => {
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
   const [shipping, setShipping] = useState(9.99);
+  const [warrantyCost, setWarrantyCost] = useState(0);
 
   const userId = Cookies.get("user_id");
 
@@ -99,7 +100,8 @@ const CartSummary = () => {
         cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0) -
         discount +
         parseFloat(estimatedTax) +
-        shipping
+        shipping +
+        warrantyCost
       ).toFixed(2);
 
       const orderData = {
@@ -126,6 +128,7 @@ const CartSummary = () => {
       setCartItems([]);
       setDiscount(0);
       setShipping(9.99);
+      setWarrantyCost(0);
       setPromoCode("");
       setOpenModal(false);
     } catch (error) {
@@ -153,6 +156,12 @@ const CartSummary = () => {
     setOpenSnackbar(true);
   };
 
+  const handleToggleWarranty = (itemId, isAdded) => {
+    setWarrantyCost((prevCost) =>
+      isAdded ? prevCost + 9.99 : prevCost - 9.99
+    );
+  };
+
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -174,6 +183,7 @@ const CartSummary = () => {
                   onIncrement={handleIncrement}
                   onDecrement={handleDecrement}
                   onDelete={handleDeleteItem}
+                  onToggleWarranty={handleToggleWarranty}
                 />
               ))}
             </List>
@@ -214,6 +224,12 @@ const CartSummary = () => {
                   </Typography>
                 </Box>
               )}
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="body2">Warranty</Typography>
+                <Typography variant="body2">
+                  ${warrantyCost.toFixed(2)}
+                </Typography>
+              </Box>
               <Box
                 display="flex"
                 justifyContent="space-between"
@@ -226,7 +242,8 @@ const CartSummary = () => {
                   {(
                     totalAfterDiscount +
                     parseFloat(estimatedTax) +
-                    shipping
+                    shipping +
+                    warrantyCost
                   ).toFixed(2)}
                 </Typography>
               </Box>
