@@ -7,7 +7,7 @@ const CheckoutModal = ({ open, handleClose, handleProceedToCheckout }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    // Add validation or processing logic if needed
     handleProceedToCheckout();
     handleClose();
   };
