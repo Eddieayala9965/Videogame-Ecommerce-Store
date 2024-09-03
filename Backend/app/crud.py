@@ -69,9 +69,11 @@ async def delete_cart_item_from_db(db: AsyncSession, cart_id: UUID):
 
 
 
-
 async def create_order(db: AsyncSession, order: OrderBase):
     """Create a new order for the user."""
+    
+    hashed_card_number = f"**** **** **** {order.card_number[-4:]}"
+    
     db_order = Order(
         user_id=order.user_id,
         gameID=order.gameID,
@@ -80,14 +82,26 @@ async def create_order(db: AsyncSession, order: OrderBase):
         quantity=order.quantity,
         image_url=order.image_url,
         total_price=order.total_price,
-        status=order.status
+        status=order.status,
+        name=order.name,
+        email=order.email,
+        address=order.address,
+        city=order.city,
+        state=order.state,
+        zip_code=order.zip_code,
+        payment_method=order.payment_method,
+        card_number=hashed_card_number,  
+        card_expiration_date=order.card_expiration_date,
+        billing_address=order.billing_address,
+        billing_city=order.billing_city,
+        billing_state=order.billing_state,
+        billing_zip_code=order.billing_zip_code
     )
     db.add(db_order)
     await db.commit()
     await db.refresh(db_order)
     return db_order
 
-# Get user orders function
 async def get_user_orders(db: AsyncSession, user_id: UUID):
     """Fetch all orders for a specific user."""
     stmt = select(Order).where(Order.user_id == user_id)
@@ -95,6 +109,13 @@ async def get_user_orders(db: AsyncSession, user_id: UUID):
     return result.scalars().all()
 
 
+async def delete_order(db: AsyncSession, order_id: UUID) -> Order:
+    order = await db.get(Order, order_id)
+    if order:
+        await db.delete(order)
+        await db.commit()
+        return order
+    return None
 
 
 

@@ -33,6 +33,7 @@ class Cart(Base):
 
     user = relationship("User", back_populates="carts")
 
+
 class Order(Base):
     __tablename__ = "orders"
 
@@ -45,6 +46,21 @@ class Order(Base):
     image_url = Column(String, nullable=True)  
     total_price = Column(Float, nullable=False)
     status = Column(String, default="Pending")
+    
+    name = Column(String, nullable=False)  
+    email = Column(String, nullable=False)
+    address = Column(String, nullable=False)
+    city = Column(String, nullable=False)
+    state = Column(String, nullable=False)
+    zip_code = Column(String, nullable=False)
+
+    payment_method = Column(String, nullable=False)
+    card_number = Column(String, nullable=False)
+    card_expiration_date = Column(String, nullable=False)
+    billing_address = Column(String, nullable=False)
+    billing_city = Column(String, nullable=False)
+    billing_state = Column(String, nullable=False)
+    billing_zip_code = Column(String, nullable=False)
 
     user = relationship("User", back_populates="orders")
 

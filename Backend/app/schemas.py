@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field 
+from pydantic import BaseModel, EmailStr, Field, constr
 from typing import Optional, List
 from uuid import UUID
 
@@ -54,7 +54,7 @@ class CartUpdate(BaseModel):
 
 
 
-# Define the schema
+
 class OrderBase(BaseModel):
     gameID: str
     title: str  
@@ -63,7 +63,24 @@ class OrderBase(BaseModel):
     image_url: Optional[str] = None
     total_price: float
     status: Optional[str] = "Pending"
-    user_id: UUID  # Keep user_id required
+    user_id: UUID
+
+  
+    name: str
+    email: EmailStr
+    address: str
+    city: str
+    state: str
+    zip_code: str
+
+ 
+    payment_method: str
+    card_number: str
+    card_expiration_date: str 
+    billing_address: str
+    billing_city: str
+    billing_state: str
+    billing_zip_code: str
 
 
 
