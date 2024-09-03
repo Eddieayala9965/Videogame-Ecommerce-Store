@@ -35,6 +35,12 @@ function Header() {
     setIsLoggedIn(!!token);
   }, []);
 
+  const handleLogin = () => {
+    Cookies.set("token", "your_token_value", { expires: 1 / 48 });
+    Cookies.set("user_id", "your_user_id_value", { expires: 1 / 48 });
+    setIsLoggedIn(true);
+  };
+
   const handleToggleDrawer = (open) => () => {
     setIsDrawerOpen(open);
   };
@@ -87,6 +93,7 @@ function Header() {
                     sx={{ color: "#333333" }}
                     component={Link}
                     href="/login"
+                    onClick={handleLogin}
                   >
                     <LoginIcon sx={{ mr: 1 }} />
                     Login
@@ -123,6 +130,7 @@ function Header() {
                     sx={{ color: "#333333" }}
                     component={Link}
                     href="/login"
+                    onClick={handleLogin}
                   >
                     <LoginIcon />
                   </IconButton>
