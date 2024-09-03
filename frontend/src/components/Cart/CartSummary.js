@@ -211,7 +211,20 @@ const CartSummary = () => {
 
         {cartItems.length > 0 && (
           <Grid item xs={12} md={4}>
-            <Card>
+            <Card
+              sx={{
+                width: {
+                  xs: "90%",
+                  sm: "80%",
+                  md: "80%",
+                  lg: "80%",
+                },
+                marginLeft: "auto",
+                marginRight: "auto",
+                boxShadow: 7,
+                borderRadius: 2,
+              }}
+            >
               <CardContent>
                 <Typography
                   variant="h6"
@@ -315,6 +328,7 @@ const CartSummary = () => {
                   onClick={handleFakeCheckout}
                   sx={{
                     mt: 2,
+                    mb: 2,
                     width: "80%",
                     backgroundColor: "#ffcc00",
                     color: "#333",
