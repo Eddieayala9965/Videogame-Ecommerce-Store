@@ -36,7 +36,6 @@ const GameConsolesScroller = () => {
 
   return (
     <Box sx={{ position: "relative", mb: 4 }}>
-      {/* Title */}
       <Typography
         variant="h4"
         sx={{
@@ -48,7 +47,6 @@ const GameConsolesScroller = () => {
         Best Gaming Consoles
       </Typography>
 
-      {/* Scrolling Content */}
       <Box
         ref={scrollerRef}
         sx={{
@@ -67,7 +65,12 @@ const GameConsolesScroller = () => {
             key={index}
             sx={{
               flex: "0 0 auto",
-              width: "220px",
+              width: {
+                xs: "150px",
+                sm: "180px",
+                md: "200px",
+                lg: "220px",
+              },
               textAlign: "center",
               padding: "15px",
               margin: "0 10px",
@@ -84,17 +87,35 @@ const GameConsolesScroller = () => {
           >
             <CardMedia
               component="img"
-              height="160"
-              image={console.img}
-              alt={console.name}
               sx={{
+                height: {
+                  xs: "120px",
+                  sm: "140px",
+                  md: "160px",
+                  lg: "180px",
+                },
                 borderRadius: "10px",
               }}
+              image={console.img}
+              alt={console.name}
             />
-            <Typography variant="subtitle1" sx={{ mt: 2 }}>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                mt: 2,
+                fontSize: { xs: "0.9rem", sm: "1rem", md: "1.1rem" },
+              }}
+            >
               {console.name}
             </Typography>
-            <Typography variant="subtitle2" sx={{ mt: 1, fontWeight: "bold" }}>
+            <Typography
+              variant="subtitle2"
+              sx={{
+                mt: 1,
+                fontWeight: "bold",
+                fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
+              }}
+            >
               {console.price}
             </Typography>
           </Card>

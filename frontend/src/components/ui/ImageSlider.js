@@ -47,8 +47,18 @@ const ImageSlider = () => {
           justifyContent: "center",
           alignItems: "center",
           position: "relative",
-          width: "1155px",
-          height: "262.5px",
+          width: {
+            xs: "100%", // Full width on small screens
+            sm: "90%",
+            md: "80%",
+            lg: "1155px", // Original size on large screens
+          },
+          height: {
+            xs: "auto",
+            sm: "auto",
+            md: "auto",
+            lg: "262.5px",
+          },
         }}
       >
         <CardMedia
@@ -56,8 +66,8 @@ const ImageSlider = () => {
           image={images[currentImageIndex]}
           alt="Game Slide"
           style={{
-            width: "1155px",
-            height: "262.5px",
+            width: "100%",
+            height: "100%",
             borderRadius: "15px",
             objectFit: "cover",
             transition: "opacity 0.5s ease-in-out",
@@ -69,18 +79,27 @@ const ImageSlider = () => {
           <Box
             sx={{
               position: "absolute",
-              bottom: "20px",
-              right: "30px",
+              bottom: "10px",
+              right: "10px",
               transform: "translateX(0)",
+              padding: "5px",
+              backgroundColor: "rgba(0, 0, 0, 0.5)", // Optional: to make text stand out
+              borderRadius: "5px",
             }}
           >
             <Typography
-              variant="h5"
+              variant="h6"
               sx={{
                 color: "#ff8c00",
                 fontFamily: "'Impact', 'Oswald', sans-serif",
                 fontWeight: "bold",
                 textTransform: "uppercase",
+                fontSize: {
+                  xs: "12px",
+                  sm: "14px",
+                  md: "16px",
+                  lg: "20px",
+                },
               }}
             >
               Pre Order Now, OCT 26.
@@ -93,7 +112,12 @@ const ImageSlider = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          width: "90%",
+          width: {
+            xs: "90%",
+            sm: "80%",
+            md: "70%",
+            lg: "60%",
+          },
           mt: 2,
         }}
       >

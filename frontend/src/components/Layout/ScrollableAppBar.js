@@ -77,7 +77,7 @@ const ScrollableAppBar = () => {
           sx={{
             position: "absolute",
             bottom: -4,
-            left: `${scrollPosition}%`,
+            left: `${Math.min(scrollPosition, 96)}%`,
             transform: "translateX(-50%)",
             width: "30px",
             height: "4px",
