@@ -32,25 +32,67 @@ const CartItem = ({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        flexDirection: {
+          xs: "column",
+          sm: "row",
+        },
         padding: "16px",
         border: "1px solid #e0e0e0",
         borderRadius: "8px",
         marginBottom: "16px",
-        boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1)",
+        boxShadow: 4,
+        width: {
+          xs: "95%",
+          sm: "90%",
+          md: "85%",
+          lg: "80%",
+          xl: "75%",
+        },
+        marginX: "auto",
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: {
+            xs: "column",
+            sm: "row",
+          },
+          width: {
+            xs: "100%",
+            sm: "auto",
+          },
+          marginBottom: {
+            xs: "16px",
+            sm: 0,
+          },
+        }}
+      >
         {item.image_url && (
           <CardMedia
             component="img"
             image={item.image_url}
             alt={item.title}
             sx={{
-              width: 100,
-              height: 100,
+              width: {
+                xs: "100%",
+                sm: 100,
+              },
+              height: {
+                xs: "auto",
+                sm: 100,
+              },
               objectFit: "cover",
               borderRadius: "8px",
-              marginRight: "16px",
+              marginRight: {
+                xs: 0,
+                sm: "16px",
+              },
+              marginBottom: {
+                xs: "16px",
+                sm: 0,
+              },
             }}
           />
         )}
@@ -73,9 +115,32 @@ const CartItem = ({
               />
             </>
           }
+          sx={{
+            textAlign: {
+              xs: "center",
+              sm: "left",
+            },
+          }}
         />
       </Box>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: {
+            xs: "center",
+            sm: "flex-end",
+          },
+          width: {
+            xs: "100%",
+            sm: "auto",
+          },
+          marginTop: {
+            xs: "16px",
+            sm: 0,
+          },
+        }}
+      >
         <Button variant="outlined" onClick={() => onIncrement(item.id)}>
           +
         </Button>

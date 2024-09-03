@@ -15,9 +15,8 @@ const PromoCard = () => {
       sx={{
         display: "flex",
         flexDirection: "row",
-        marginBottom: 3,
-
-        mt: 5,
+        marginTop: 5,
+        marginBottom: 5,
         marginX: "auto",
         width: "70%",
         boxShadow: 3,
