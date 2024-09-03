@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -6,23 +6,22 @@ import {
   Typography,
   Button,
   Box,
-  Snackbar,
   Modal,
+  Rating,
 } from "@mui/material";
 import { addToCart } from "../../utils/api";
 import Cookies from "js-cookie";
 
-const ProductCard = ({ product }) => {
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+const ProductCard = ({ product, onAddToCartSuccess, onAddToCartFailure }) => {
   const [openModal, setOpenModal] = useState(false);
-  const [reviews, setReviews] = useState([]);
+  const [randomSystem, setRandomSystem] = useState("");
+  const [randomReviews, setRandomReviews] = useState(0);
+  const [randomRating, setRandomRating] = useState(0);
 
   const handleAddToCart = async () => {
     const userId = Cookies.get("user_id");
     if (!userId) {
-      setSnackbarMessage("User not logged in.");
-      setOpenSnackbar(true);
+      onAddToCartFailure("User not logged in.");
       return;
     }
 
@@ -35,65 +34,126 @@ const ProductCard = ({ product }) => {
         quantity: 1,
         image_url: product.thumb || "https://via.placeholder.com/150",
       });
-      setSnackbarMessage("Product added to cart!");
-      setOpenSnackbar(true);
+      onAddToCartSuccess("Product added to cart!");
     } catch (error) {
-      setSnackbarMessage("Failed to add product to cart.");
-      setOpenSnackbar(true);
+      onAddToCartFailure("Failed to add product to cart.");
     }
   };
 
-  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
-  const handleCloseModal = () => setOpenModal(false);
-
-  const handleCloseSnackbar = () => setOpenSnackbar(false);
+  useEffect(() => {
+    const gamingSystems = [
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PC",
+      "PS5",
+      "Xbox Series X",
+    ];
+    setRandomSystem(
+      gamingSystems[Math.floor(Math.random() * gamingSystems.length)]
+    );
+    setRandomReviews(Math.floor(Math.random() * 1000) + 1);
+    setRandomRating(Math.random() * 2 + 3);
+  }, []);
 
   return (
     <Card
       sx={{
-        width: 375,
-        margin: 1,
+        flex: "1 1 calc(25% - 16px)",
+        margin: "8px",
         textAlign: "center",
         padding: 2,
         borderRadius: 2,
         boxShadow: 3,
+        transition: "transform 0.3s, box-shadow 0.3s",
+        "&:hover": {
+          transform: "scale(1.05)",
+          boxShadow: "0 6px 12px rgba(0, 0, 0, 0.2)",
+        },
+        "@media (max-width: 1200px)": {
+          flex: "1 1 calc(33.333% - 16px)",
+        },
+        "@media (max-width: 900px)": {
+          flex: "1 1 calc(50% - 16px)",
+        },
+        "@media (max-width: 600px)": {
+          flex: "1 1 100%",
+        },
       }}
     >
       <CardMedia
         component="img"
         sx={{
-          height: 275,
+          height: 200,
           width: "100%",
           objectFit: "contain",
           objectPosition: "center",
           backgroundColor: "#f5f5f5",
+          marginBottom: 3,
         }}
         image={product.thumb || "https://via.placeholder.com/150"}
         alt={product.external}
       />
       <CardContent>
-        <Typography variant="h5" component="div">
+        <Typography variant="h6" component="div">
           {product.external}
         </Typography>
-        <Box>
-          <Typography variant="body2" color="text.secondary">
-            Price: {product.cheapest}
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ marginBottom: 1 }}
+        >
+          {randomSystem}
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            mb: 1,
+          }}
+        >
+          <Rating
+            name="read-only"
+            value={randomRating}
+            precision={0.1}
+            readOnly
+            size="small"
+          />
+          <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
+            ({randomReviews})
           </Typography>
         </Box>
-        <Box>
-          <Button variant="contained" color="primary" onClick={handleAddToCart}>
-            Add to Cart
-          </Button>
-        </Box>
+        <Typography
+          variant="body1"
+          color="primary"
+          sx={{ fontWeight: "bold", mb: 1 }}
+        >
+          ${product.cheapest}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Pros Save 5% When You Buy Online
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleAddToCart}
+          sx={{
+            backgroundColor: "#ffcc00",
+            color: "#333",
+            "&:hover": {
+              backgroundColor: "#ffb700",
+            },
+          }}
+        >
+          Add to Cart
+        </Button>
       </CardContent>
-
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={4000}
-        onClose={handleCloseSnackbar}
-        message={snackbarMessage}
-      />
 
       <Modal open={openModal} onClose={handleCloseModal}>
         <Box

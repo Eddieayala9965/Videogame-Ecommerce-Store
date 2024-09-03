@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, Box, Grid, Snackbar } from "@mui/material";
+import { TextField, Box, Snackbar } from "@mui/material";
 import { searchGames } from "../utils/api";
 import ProductCard from "../components/Product/ProductCard";
+import ScrollableAppBar from "@/components/Layout/ScrollableAppBar";
+import Footer from "@/components/Layout/Footer";
 
 const Products = () => {
   const [query, setQuery] = useState("");
@@ -30,12 +32,18 @@ const Products = () => {
     }
   }, [query]);
 
+  const handleSnackbarOpen = (message) => {
+    setSnackbarMessage(message);
+    setOpenSnackbar(true);
+  };
+
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
 
   return (
-    <Box mt={3}>
+    <Box>
+      <ScrollableAppBar />
       <Box display="flex" justifyContent="center" mb={2}>
         <TextField
           label="Search Games"
@@ -48,25 +56,35 @@ const Products = () => {
           sx={{ maxWidth: 600 }}
         />
       </Box>
-      <Grid
-        container
-        spacing={2}
+      <Box
+        display="flex"
         justifyContent="center"
         alignItems="center"
+        flexWrap="wrap"
+        gap={2}
         sx={{ maxWidth: 1200, margin: "0 auto" }}
       >
         {products.map((product) => (
-          <Grid item xs={12} sm={6} md={4} key={product.gameID}>
-            <ProductCard product={product} />
-          </Grid>
+          <Box key={product.gameID} flex="1 1 300px" maxWidth="300px">
+            <ProductCard
+              product={product}
+              onAddToCartSuccess={() =>
+                handleSnackbarOpen("Product added to cart!")
+              }
+              onAddToCartFailure={() =>
+                handleSnackbarOpen("Failed to add product to cart.")
+              }
+            />
+          </Box>
         ))}
-      </Grid>
+      </Box>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={4000}
         onClose={handleCloseSnackbar}
         message={snackbarMessage}
       />
+      <Footer />
     </Box>
   );
 };
