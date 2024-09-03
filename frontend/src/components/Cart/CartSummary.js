@@ -19,13 +19,13 @@ import {
 } from "../../utils/api";
 import CartItem from "./CartItem";
 import Cookies from "js-cookie";
-import CheckoutModal from "../ui/CheckoutModal"; // Make sure the path is correct
+import CheckoutModal from "../ui/CheckoutModal";
 
 const CartSummary = () => {
   const [cartItems, setCartItems] = useState([]);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [openModal, setOpenModal] = useState(false); // State for the modal
+  const [openModal, setOpenModal] = useState(false);
 
   const userId = Cookies.get("user_id");
 
@@ -83,7 +83,7 @@ const CartSummary = () => {
     setOpenModal(true);
   };
 
-  const handleProceedToCheckout = async () => {
+  const handleProceedToCheckout = async (formData) => {
     if (!userId) {
       setSnackbarMessage("User ID not found. Please log in.");
       setOpenSnackbar(true);
@@ -92,6 +92,7 @@ const CartSummary = () => {
 
     try {
       const orderData = {
+        ...formData,
         gameID: cartItems.map((item) => item.gameID).join(", "),
         title: cartItems.map((item) => item.title).join(", "),
         price: cartItems.reduce(
@@ -110,12 +111,10 @@ const CartSummary = () => {
       setSnackbarMessage("Order placed successfully!");
       setOpenSnackbar(true);
 
-      // Clear the cart items from the database
       for (const item of cartItems) {
         await deleteCartItem(item.id);
       }
 
-      // Clear the cart items from the state
       setCartItems([]);
     } catch (error) {
       setSnackbarMessage("Failed to place order.");
@@ -136,13 +135,12 @@ const CartSummary = () => {
     0
   );
 
-  const estimatedTax = (subtotal * 0.0725).toFixed(2); // Example tax calculation
-  const shipping = subtotal > 79 ? 0 : 9.99; // Free shipping over $79
+  const estimatedTax = (subtotal * 0.0725).toFixed(2);
+  const shipping = subtotal > 79 ? 0 : 9.99;
 
   return (
     <>
       <Grid container spacing={2}>
-        {/* Left Side: Cart Items */}
         <Grid item xs={12} md={8}>
           {cartItems.length > 0 ? (
             <List>
@@ -163,7 +161,6 @@ const CartSummary = () => {
           )}
         </Grid>
 
-        {/* Right Side: Order Summary */}
         <Grid item xs={12} md={4}>
           <Card>
             <CardContent>
@@ -202,7 +199,7 @@ const CartSummary = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleFakeCheckout} // Trigger the modal instead of direct checkout
+                onClick={handleFakeCheckout}
                 sx={{
                   mt: 2,
                   width: "80%",
@@ -221,7 +218,6 @@ const CartSummary = () => {
         </Grid>
       </Grid>
 
-      {/* Checkout Modal */}
       <CheckoutModal
         open={openModal}
         handleClose={handleCloseModal}
