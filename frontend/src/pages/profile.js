@@ -120,7 +120,7 @@ const Profile = () => {
           Profile
         </Typography>
         <Avatar
-          src="/default-avatar.png" // Replace with user's avatar if available
+          src="/default-avatar.png"
           alt={username}
           sx={{ width: 120, height: 120, mb: 2 }}
         />

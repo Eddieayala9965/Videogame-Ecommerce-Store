@@ -101,6 +101,18 @@ export const getUserOrders = async (userId) => {
   return api.get(`/orders`, { params: { user_id: userId } });
 };
 
+export const deleteOrder = async (orderId) => {
+  try {
+    const response = await api.delete(`/orders/${orderId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      throw new Error("Order not found");
+    }
+    throw new Error("Failed to delete order");
+  }
+};
+
 // review endpoints
 
 export const createReview = async (reviewData, userId) => {
