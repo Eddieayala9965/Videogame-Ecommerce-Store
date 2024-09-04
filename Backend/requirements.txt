@@ -8,9 +8,9 @@ aiosignal==1.3.1
 alembic==1.13.2
 annotated-types==0.7.0
 anyio==4.4.0
-async-timeout @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_cfdah1hgvk/croot/async-timeout_1703097014863/work
+async-timeout==4.0.3
 asyncio==3.4.3
-asyncpg @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_b3f6_of5ky/croot/asyncpg_1703165613494/work
+asyncpg==0.27.0
 attrs==24.2.0
 boto3==1.34.131
 botocore==1.34.131
