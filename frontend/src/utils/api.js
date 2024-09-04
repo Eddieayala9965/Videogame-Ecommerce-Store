@@ -1,8 +1,10 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
+const NEXT_BACKEND_URL = process.env.NEXT_BACKEND_URL;
+
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+  baseURL: NEXT_BACKEND_URL,
 });
 
 api.interceptors.request.use(
