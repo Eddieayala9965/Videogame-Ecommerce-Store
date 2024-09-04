@@ -8,7 +8,7 @@ aiosignal==1.3.1
 alembic==1.13.2
 annotated-types==0.7.0
 anyio==4.4.0
-async-timeout @ file:///home/conda/feedstock_root/build_artifacts/async-timeout_1691763562544/work
+async-timeout
 asyncio==3.4.3
 asyncpg==0.29.0
 attrs==24.2.0
@@ -44,7 +44,6 @@ six==1.16.0
 sniffio==1.3.1
 SQLAlchemy==2.0.32
 starlette==0.37.2
-typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1717802530399/work
 urllib3==2.2.2
 wrapt==1.16.0
 yarl==1.9.4
