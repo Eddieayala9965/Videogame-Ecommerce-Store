@@ -3,8 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 
-print(f"Using Python interpreter: {os.popen('which python').read().strip()}")
-print(f"Using DATABASE_URL: {os.getenv('DATABASE_URL')}")
+
 
 load_dotenv()
 
