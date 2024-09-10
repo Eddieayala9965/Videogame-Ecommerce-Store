@@ -58,9 +58,3 @@ Click the image to view more details.
 ### 🎨 Frontend Features
 - **Responsive Design**: The entire frontend is responsive, ensuring smooth user experience across desktop, tablet, and mobile devices.
 - **Material-UI Components**: Pre-built components for a consistent and modern UI.
-
----
-
-## 🛠️ Setup & Installation
-
-
